@@ -19,6 +19,11 @@ git clone git@github.com:JLospinoso/beamgun.git
 
 Open `Beamgun.sln` and build. That's it!
 
+Read more
+==
+
+Check out [this blog post](https://jlospinoso.github.io/infosec/usb%20rubber%20ducky/c%23/clr/wpf/.net/security/2016/11/15/usb-rubber-ducky-defeat.html) for more details!
+
 Contribute
 ==
 
