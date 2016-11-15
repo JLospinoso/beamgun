@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?if $(var.Platform) = x64 ?>
+    <?define ProductName = "Beamgun (64 bit)" ?>
+    <?define Win64 = "yes" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
+  <?else ?>
+    <?define ProductName = "Beamgun" ?>
+    <?define Win64 = "no" ?>
+    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
+  <?endif ?>
+  
+  <Product Id="*"
+           Name="Beamgun"
+           Language="1033"
+           Version="0.1.0.0"
+           Manufacturer="Josh Lospinoso"
+           UpgradeCode="662c6713-7850-4572-a794-b1c596d81908">
+    <Package Compressed="yes"
+         InstallerVersion="301"
+         Manufacturer="Josh Lospinoso"
+         Description="Rubber Ducky Defeat Software"
+         Keywords="Information security,USB monitor"
+         Comments="(c) 2016 Josh Lospinoso"  />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Beamgun" />
+    <Property Id="WixShellExecTarget" Value="C:/Program Files (x86)/Beamgun/BeamgunApp.exe" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+    <UI>
+        <UIRef Id="WixUI_Minimal" />
+        <Publish Dialog="ExitDialog"
+          Control="Finish" 
+          Event="DoAction" 
+          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1</Publish>
+    </UI>
+    <Media Id="1"
+       Cabinet="media1.cab"
+       EmbedCab="yes" />
+    <UIRef Id="WixUI_Minimal" />
+    <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
+    <Icon Id="icon.ico" SourceFile="$(var.BeamgunApp.ProjectDir)Graphics/ArmedIcon.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="icon.ico" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="$(var.PlatformProgramFilesFolder)">
+        <Directory Id="BeamgunDir" Name="Beamgun">
+          <Component Id="CMP_BeamgunApp" Guid="*">
+            <File Id="BeamgunApp"
+              Name="$(var.BeamgunApp.TargetFileName)"
+              Source="$(var.BeamgunApp.TargetPath)"
+              KeyPath="yes"/>
+          </Component>
+          <Component Id="CMP_NotifyIconWpf" Guid="*">
+            <File Id="NotifyIconWpf"
+              Name="$(var.NotifyIconWpf.TargetFileName)"
+              Source="$(var.NotifyIconWpf.TargetPath)"
+              KeyPath="yes"/>
+          </Component>
+          <Component Id="CMP_Interactivity" Guid="*">
+            <File Id="Interactivity"
+              Name="System.Windows.Interactivity.dll"
+              Source="$(var.BeamgunApp.TargetDir)System.Windows.Interactivity.dll"
+              KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="BeamgunShortcuts" Name="Beamgun">
+          <Component Id="CMP_Shortcuts" Guid="*">
+            <Shortcut Id="StartMenuShortcut"
+                      Name="Beamgun"
+                      Description="USB Rubberducky Protection"
+                      Target="[BeamgunDir]$(var.BeamgunApp.TargetFileName)"
+                      Icon="icon.ico"
+                      />
+            <RemoveFolder Id="RemoveBeamgunShortcuts" On="uninstall" />
+            <RegistryValue Root="HKCU"
+                 Key="Software\Beamgun"
+                 Name="installed"
+                 Type="integer"
+                 Value="1"
+                 KeyPath="yes" />
+          </Component>
+          <Component Id="CMP_Autorun" Guid="*">
+            <RegistryValue Root="HKCU"
+                 Key="Software\Microsoft\Windows\CurrentVersion\Run"
+                 Name="Beamgun"
+                 Type="string"
+                 Value="[#BeamgunApp]"
+                 KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="Beamgun"
+         Title="Beamgun"
+         Level="1">
+      <ComponentRef Id="CMP_BeamgunApp" />
+      <ComponentRef Id="CMP_NotifyIconWpf" />
+      <ComponentRef Id="CMP_Interactivity" />
+      <ComponentRef Id="CMP_Shortcuts" />
+      <ComponentRef Id="CMP_Autorun" />
+    </Feature>
+  </Product>
+</Wix>
