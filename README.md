@@ -1,4 +1,4 @@
-[![Beamgun Infographic](https://s3.amazonaws.com/net.lospi.beamgun/Readme.png)](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.0.msi)
+![Beamgun Infographic](https://s3.amazonaws.com/net.lospi.beamgun/Readme.png)
 
 Installing Beamgun
 ==
