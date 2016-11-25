@@ -27,7 +27,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50px" />
                 <RowDefinition Height="25px" />
-                <RowDefinition Height="50px" />
+                <RowDefinition Height="75px" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="22" />
                 <RowDefinition Height="0" />
@@ -88,24 +88,20 @@
                     </Border>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2" HorizontalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Row="0" Grid.Column="0">Attempt to steal focus</Label>
-                <CheckBox Grid.Row="0" Grid.Column="1" 
-                          IsChecked="{Binding Path=BeamgunState.StealFocus}" 
-                          VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <Label Grid.Row="1" Grid.Column="0">Lock workstation</Label>
-                <CheckBox Grid.Row="1" Grid.Column="1" 
-                          IsChecked="{Binding Path=BeamgunState.LockWorkStation}" 
-                          VerticalAlignment="Center" HorizontalAlignment="Left" />
-            </Grid>
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.StealFocus}" VerticalAlignment="Center" />
+                    <Label>Attempt to steal focus</Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.LockWorkStation}" VerticalAlignment="Center"/>
+                    <Label>Lock workstation</Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageEnabled}" VerticalAlignment="Center"/>
+                    <Label>USB Storage Enabled</Label>
+                </StackPanel>
+            </StackPanel>
             <Grid Grid.Row="3">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*" />

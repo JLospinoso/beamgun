@@ -76,7 +76,7 @@ namespace BeamgunApp.Models
             {
                 _stealFocus = value;
                 OnPropertyChanged(nameof(StealFocus));
-                Registry.SetValue(BaseKey, StealFocusSubkey, _stealFocus);
+                Registry.SetValue(BeamgunBaseKey, StealFocusSubkey, _stealFocus);
             }
         }
 
@@ -87,7 +87,18 @@ namespace BeamgunApp.Models
             {
                 _lockWorkStation = value;
                 OnPropertyChanged(nameof(LockWorkStation));
-                Registry.SetValue(BaseKey, LockWorkstationSubkey, _lockWorkStation);
+                Registry.SetValue(BeamgunBaseKey, LockWorkstationSubkey, _lockWorkStation);
+            }
+        }
+
+        public bool UsbMassStorageEnabled
+        {
+            get { return _usbMassStorageEnabled; }
+            set
+            {
+                _usbMassStorageEnabled = value;
+                OnPropertyChanged(nameof(UsbMassStorageEnabled));
+                Registry.SetValue(UsbMassStorageKey, UsbMassStorageSubkey, value ? 3 : 4);
             }
         }
 
@@ -131,8 +142,9 @@ namespace BeamgunApp.Models
 
         public BeamgunState()
         {
-            StealFocus = (string)Registry.GetValue(BaseKey, StealFocusSubkey, "True") == "True";
-            LockWorkStation = (string)Registry.GetValue(BaseKey, LockWorkstationSubkey, "False") == "True";
+            StealFocus = (string)Registry.GetValue(BeamgunBaseKey, StealFocusSubkey, "True") == "True";
+            LockWorkStation = (string)Registry.GetValue(BeamgunBaseKey, LockWorkstationSubkey, "False") == "True";
+            UsbMassStorageEnabled = (int)Registry.GetValue(UsbMassStorageKey, UsbMassStorageSubkey, 3) == 3;
         }
 
         [NotifyPropertyChangedInvocator]
@@ -149,7 +161,10 @@ namespace BeamgunApp.Models
         private Visibility _mainWindowVisibility;
         private bool _stealFocus;
         private bool _lockWorkStation;
-        private const string BaseKey = "HKEY_CURRENT_USER\\SOFTWARE\\Beamgun";
+        private bool _usbMassStorageEnabled;
+        private const string UsbMassStorageKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\usbstor";
+        private const string UsbMassStorageSubkey = "Start";
+        private const string BeamgunBaseKey = "HKEY_CURRENT_USER\\SOFTWARE\\Beamgun";
         private const string StealFocusSubkey = "StealFocus";
         private const string LockWorkstationSubkey = "LockWorkStation";
     }
