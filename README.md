@@ -1,4 +1,4 @@
-![Beamgun Infographic](https://s3.amazonaws.com/net.lospi.beamgun/Readme.png)
+![Beamgun Infographic](https://github.com/JLospinoso/beamgun/raw/master/Readme.png)
 
 Installing Beamgun
 ==
@@ -27,7 +27,7 @@ Check out [this blog post](https://jlospinoso.github.io/infosec/usb%20rubber%20d
 Version history
 ==
 
-* [BeamgunInstaller-0.1.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.0.msi) | [BeamgunApp-0.1.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.0.zip): Fixes to focus stealing, cleaned up WIX installer
+* [BeamgunInstaller-0.1.1.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.1.msi) | [BeamgunApp-0.1.1.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.1.zip): Fixes to focus stealing, cleaned up WIX installer
 
 * [BeamgunInstaller-0.1.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.0.msi) | [BeamgunApp-0.1.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.0.zip): First version
 
