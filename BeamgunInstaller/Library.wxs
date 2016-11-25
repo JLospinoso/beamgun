@@ -13,7 +13,7 @@
   <Product Id="*"
            Name="Beamgun"
            Language="1033"
-           Version="0.1.0.0"
+           Version="0.1.1.0"
            Manufacturer="Josh Lospinoso"
            UpgradeCode="662c6713-7850-4572-a794-b1c596d81908">
     <Package Compressed="yes"
@@ -35,6 +35,7 @@
     <Media Id="1"
        Cabinet="media1.cab"
        EmbedCab="yes" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of Beamgun is already installed." AllowSameVersionUpgrades="yes" />
     <UIRef Id="WixUI_Minimal" />
     <WixVariable Id="WixUILicenseRtf" Value="License.rtf" />
     <Icon Id="icon.ico" SourceFile="$(var.BeamgunApp.ProjectDir)Graphics/ArmedIcon.ico"/>

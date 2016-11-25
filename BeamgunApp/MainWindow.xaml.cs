@@ -38,10 +38,8 @@ namespace BeamgunApp
             var viewModel = new BeamgunViewModel(this);
             viewModel.StealFocus += () => Dispatcher.Invoke(new MethodInvoker(delegate
             {
-                Show();
-                Activate();
                 Topmost = true;
-                Keyboard.Focus(this);
+                Activate();
             }));
             DataContext = viewModel;
         }
