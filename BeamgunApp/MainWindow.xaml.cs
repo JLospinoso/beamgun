@@ -35,7 +35,7 @@ namespace BeamgunApp
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
-            var viewModel = new BeamgunViewModel(this);
+            var viewModel = new BeamgunViewModel();
             viewModel.StealFocus += () => Dispatcher.Invoke(new MethodInvoker(delegate
             {
                 Topmost = true;

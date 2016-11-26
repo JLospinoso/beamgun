@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using BeamgunApp.Annotations;
 using Microsoft.Win32;
+using System.Security.Principal;
 
 namespace BeamgunApp.Models
 {
@@ -79,7 +80,7 @@ namespace BeamgunApp.Models
                 Registry.SetValue(BeamgunBaseKey, StealFocusSubkey, _stealFocus);
             }
         }
-
+        
         public bool LockWorkStation
         {
             get { return _lockWorkStation; }
@@ -91,6 +92,16 @@ namespace BeamgunApp.Models
             }
         }
 
+        public bool IsAdmin
+        {
+            get { return _isAdmin; }
+            set
+            {
+                _isAdmin = value;
+                OnPropertyChanged(nameof(IsAdmin));
+            }
+        }
+        
         public bool UsbMassStorageEnabled
         {
             get { return _usbMassStorageEnabled; }
@@ -98,7 +109,15 @@ namespace BeamgunApp.Models
             {
                 _usbMassStorageEnabled = value;
                 OnPropertyChanged(nameof(UsbMassStorageEnabled));
-                Registry.SetValue(UsbMassStorageKey, UsbMassStorageSubkey, value ? 3 : 4);
+                if (!IsAdmin) return;
+                try
+                {
+                    Registry.SetValue(UsbMassStorageKey, UsbMassStorageSubkey, value ? 3 : 4);
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    AppendToAlert($"Unauthorized access: {e.Message}");
+                }
             }
         }
 
@@ -142,6 +161,9 @@ namespace BeamgunApp.Models
 
         public BeamgunState()
         {
+            var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            IsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+
             StealFocus = (string)Registry.GetValue(BeamgunBaseKey, StealFocusSubkey, "True") == "True";
             LockWorkStation = (string)Registry.GetValue(BeamgunBaseKey, LockWorkstationSubkey, "False") == "True";
             UsbMassStorageEnabled = (int)Registry.GetValue(UsbMassStorageKey, UsbMassStorageSubkey, 3) == 3;
@@ -162,6 +184,7 @@ namespace BeamgunApp.Models
         private bool _stealFocus;
         private bool _lockWorkStation;
         private bool _usbMassStorageEnabled;
+        private bool _isAdmin;
         private const string UsbMassStorageKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\usbstor";
         private const string UsbMassStorageSubkey = "Start";
         private const string BeamgunBaseKey = "HKEY_CURRENT_USER\\SOFTWARE\\Beamgun";

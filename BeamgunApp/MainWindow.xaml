@@ -98,14 +98,14 @@
                     <Label>Lock workstation</Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageEnabled}" VerticalAlignment="Center"/>
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageEnabled}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
                     <Label>USB Storage Enabled</Label>
                 </StackPanel>
             </StackPanel>
             <Grid Grid.Row="3">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*" />
                     <RowDefinition Height="3*" />
+                    <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
                 <TextBox Grid.Row="0" 
                      controls:TextBoxBehavior.ScrollOnTextChanged="True"

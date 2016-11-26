@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Management;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
 using BeamgunApp.Commands;
 using BeamgunApp.Models;
 using KeyConverter = BeamgunApp.Models.KeyConverter;
@@ -18,7 +18,7 @@ namespace BeamgunApp.ViewModel
         public ICommand ExitCommand { get; }
         public Action StealFocus { get; set; }
 
-        public BeamgunViewModel(Window mainWindow)
+        public BeamgunViewModel()
         {
             BeamgunState = new BeamgunState
             {
@@ -31,7 +31,6 @@ namespace BeamgunApp.ViewModel
             LoseFocusCommand = new DeactivatedCommand(this);
             ResetCommand = new ResetCommand(this);
             ExitCommand = new ExitCommand(this);
-            _workstationLocker = new WorkstationLocker();
 
             const uint repeatInterval = 10;
             var converter = new KeyConverter();
@@ -48,30 +47,71 @@ namespace BeamgunApp.ViewModel
                     StealFocus();
                 }
             };
-
-            var windowHandle = new WindowInteropHelper(mainWindow).Handle;
-            _usbMonitor = new UsbMonitor(windowHandle);
-            _usbMonitor.DeviceAdded += () =>
-            {
-                BeamgunState.AppendToAlert("USB device inserted.");
-                _alarm.Trigger("Alerting on USB device insertion.");
-                if (!BeamgunState.LockWorkStation) return;
-                var result = _workstationLocker.Lock();
-                var message = result ? "Successfully locked the workstation." : "Could not lock the workstation.";
-                BeamgunState.AppendToAlert(message);
-            };
-            _usbMonitor.DeviceRemoved += () =>
-            {
-                BeamgunState.AppendToAlert("USB device removed.");
-            };
+            var workstationLocker = new WorkstationLocker();
             
             _keystrokeHooker.Callback += key =>
             {
                 if (!_alarm.Triggered) return;
                 BeamgunState.AppendToKeyLog(converter.Convert(key));
             };
+
+            var networkQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_NetworkAdapter\"");
+            _networkWatcher = new ManagementEventWatcher(networkQuery);
+            _networkWatcher.EventArrived += (caller, args) =>
+            {
+                var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
+                var alertMessage = $"Alerting on network adapter insertion: " +
+                   $"{obj["AdapterType"]} " +
+                   $"{obj["Caption"]} " +
+                   $"{obj["Description"]} " +
+                   $"{obj["DeviceID"]} " +
+                   $"{obj["GUID"]} " +
+                   $"{obj["MACAddress"]} " +
+                   $"{obj["Manufacturer"]} " +
+                   $"{obj["Name"]} " +
+                   $"{obj["PermanentAddress"]} " +
+                   $"{obj["NetworkAddresses"]} " +
+                   $"{obj["ProductName"]} " +
+                   $"{obj["ServiceName"]} " +
+                   $"{obj["SystemCreationClassName"]} " +
+                   $"{obj["SystemName"]} ";
+                _alarm.Trigger(alertMessage);
+                BeamgunState.AppendToAlert(alertMessage);
+
+                var query = $"SELECT * FROM Win32_NetworkAdapter WHERE GUID = \"{obj["GUID"]}\"";
+                var searcher = new ManagementObjectSearcher(query);
+                foreach (var item in searcher.Get())
+                {
+                    var managementObject = (ManagementObject)item;
+                    var disableCode = managementObject.InvokeMethod("Disable", null);
+                    BeamgunState.AppendToAlert(disableCode.Equals(0)
+                        ? "Network adapter successfully disabled."
+                        : $"Danger! Unable to disable network adapter: {disableCode}");
+                }
+            };
+            _networkWatcher.Start();
+            
+            var keyboardQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_Keyboard\"");
+            _keyboardWatcher = new ManagementEventWatcher(keyboardQuery);
+            _keyboardWatcher.EventArrived += (caller, args) =>
+            {
+                var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
+                var alertMessage = $"Alerting on keyboard insertion: " +
+                   $"{obj["Name"]} " +
+                   $"{obj["Caption"]} " +
+                   $"{obj["Description"]} " +
+                   $"{obj["DeviceID"]} " +
+                   $"{obj["Layout"]} " +
+                   $"{obj["PNPDeviceID"]}.";
+                _alarm.Trigger(alertMessage);
+                if (!BeamgunState.LockWorkStation) return;
+                BeamgunState.AppendToAlert(workstationLocker.Lock()
+                    ? "Successfully locked the workstation." 
+                    : "Could not lock the workstation.");
+            };
+            _keyboardWatcher.Start();
         }
-        
+
         public void DisableUntil(DateTime time)
         {
             BeamgunState.Disabler.DisableUntil(time);
@@ -80,7 +120,8 @@ namespace BeamgunApp.ViewModel
         public void Dispose()
         {
             _keystrokeHooker.Dispose();
-            _usbMonitor.Dispose();
+            _networkWatcher.Stop();
+            _keyboardWatcher.Stop();
         }
 
         public void Reset()
@@ -90,10 +131,23 @@ namespace BeamgunApp.ViewModel
             BeamgunState.KeyLog = $"Reset at {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}\n";
             _alarm.Reset();
         }
+
+        private void SurveyNetworks()
+        {
+            var wmiQuery = new SelectQuery("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionId != NULL");
+            var searchProcedure = new ManagementObjectSearcher(wmiQuery);
+            foreach (var item in searchProcedure.Get())
+            {
+                var managementObject = (ManagementObject)item;
+                var connectionId = (string)managementObject["NetConnectionId"];
+                var result = managementObject.InvokeMethod("Disable", null);
+                var alert = !result.Equals(0) ? $"Could not disable {connectionId}." : $"Disabled {connectionId}.";
+                BeamgunState.AppendToAlert(alert);
+            }
+        }
         
         private readonly KeystrokeHooker _keystrokeHooker;
-        private readonly UsbMonitor _usbMonitor;
         private readonly Alarm _alarm;
-        private readonly WorkstationLocker _workstationLocker;
+        private readonly ManagementEventWatcher _networkWatcher, _keyboardWatcher;
     }
 }
