@@ -4,8 +4,8 @@ Installing Beamgun
 ==
 
 Beamgun v0.1.1 is available 
-[as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.1.msi) 
-and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.1.zip). 
+[as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.0.msi) 
+and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.0.zip). 
 We recommend you use the MSI installer so that Beamgun restarts
 on reboot.
 
@@ -26,6 +26,8 @@ Check out [this blog post](https://jlospinoso.github.io/infosec/usb%20rubber%20d
 
 Version history
 ==
+
+* [BeamgunInstaller-0.2.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.0.msi) | [BeamgunApp-0.2.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.0.zip): Major overhaul to alerting mechanism, reimplemented using WMI. Added USB storage disable. Added detection for LAN Turtles.
 
 * [BeamgunInstaller-0.1.1.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.1.msi) | [BeamgunApp-0.1.1.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.1.zip): Fixes to focus stealing, cleaned up WIX installer
 
