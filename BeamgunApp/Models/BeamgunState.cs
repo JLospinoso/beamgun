@@ -131,10 +131,16 @@ namespace BeamgunApp.Models
             }
         }
 
-        public void SetGraphicsAlert()
+        public void SetGraphicsKeyboardAlert()
         {
-            TrayIconPath = "Graphics/AlertIcon.ico";
-            BannerPath = "Graphics/BeamgunAppBannerAlert.png";
+            TrayIconPath = "Graphics/KeyboardAlertIcon.ico";
+            BannerPath = "Graphics/BeamgunAppBannerKeyboardAlert.png";
+        }
+
+        public void SetGraphicsLanAlert()
+        {
+            TrayIconPath = "Graphics/LanAlertIcon.ico";
+            BannerPath = "Graphics/BeamgunAppBannerLanAlert.png";
         }
 
         public void SetGraphicsDisabled()

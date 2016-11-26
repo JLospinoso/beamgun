@@ -158,17 +158,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\AlertIcon.png" />
-    <Resource Include="Graphics\ArmedIcon.png" />
-    <Resource Include="Graphics\DisabledIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Graphics\AlertIcon.ico" />
     <Resource Include="Graphics\ArmedIcon.ico" />
     <Resource Include="Graphics\DisabledIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\BeamgunAppBannerAlert.png" />
     <Resource Include="Graphics\BeamgunAppBannerArmed.png" />
     <Resource Include="Graphics\BeamgunAppBannerDisabled.png" />
   </ItemGroup>
@@ -183,6 +176,18 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\BeamgunAppBannerLanAlert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\BeamgunAppBannerKeyboardAlert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\LanAlertIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\KeyboardAlertIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

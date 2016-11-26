@@ -41,7 +41,6 @@ namespace BeamgunApp.ViewModel
             {
                 BeamgunState.MainWindowState = WindowState.Normal;
                 BeamgunState.MainWindowVisibility = Visibility.Visible;
-                BeamgunState.SetGraphicsAlert();
                 if (BeamgunState.StealFocus)
                 {
                     StealFocus();
@@ -59,6 +58,7 @@ namespace BeamgunApp.ViewModel
             _networkWatcher = new ManagementEventWatcher(networkQuery);
             _networkWatcher.EventArrived += (caller, args) =>
             {
+                BeamgunState.SetGraphicsLanAlert();
                 var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
                 var alertMessage = $"Alerting on network adapter insertion: " +
                    $"{obj["AdapterType"]} " +
@@ -95,6 +95,7 @@ namespace BeamgunApp.ViewModel
             _keyboardWatcher = new ManagementEventWatcher(keyboardQuery);
             _keyboardWatcher.EventArrived += (caller, args) =>
             {
+                BeamgunState.SetGraphicsKeyboardAlert();
                 var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
                 var alertMessage = $"Alerting on keyboard insertion: " +
                    $"{obj["Name"]} " +
