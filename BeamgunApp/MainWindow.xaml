@@ -10,7 +10,7 @@
         xmlns:controls="clr-namespace:BeamgunApp.Controls"
         mc:Ignorable="d"
         Title="Beamgun"
-        Height="450" Width="300" 
+        Height="480" Width="640" 
         ResizeMode="NoResize" 
         WindowStyle="None"
         ShowInTaskbar="False"
@@ -27,7 +27,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="50px" />
                 <RowDefinition Height="25px" />
-                <RowDefinition Height="75px" />
+                <RowDefinition Height="25px" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="22" />
                 <RowDefinition Height="0" />
@@ -88,36 +88,29 @@
                     </Border>
                 </StackPanel>
             </Grid>
-            <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Path=BeamgunState.StealFocus}" VerticalAlignment="Center" />
-                    <Label>Attempt to steal focus</Label>
+                    <Label>Steal focus</Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Path=BeamgunState.LockWorkStation}" VerticalAlignment="Center"/>
                     <Label>Lock workstation</Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.DisableNetworkAdapter}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
+                    <Label>Disable new net adapters</Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageEnabled}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
-                    <Label>USB Storage Enabled</Label>
+                    <Label>Enable USB Storage</Label>
                 </StackPanel>
             </StackPanel>
-            <Grid Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBox Grid.Row="0" 
+            <TextBox Grid.Row="3" 
                      controls:TextBoxBehavior.ScrollOnTextChanged="True"
                      AcceptsReturn="True" VerticalScrollBarVisibility="Visible" 
                      TextWrapping="Wrap" IsReadOnly="True"
                      Text="{Binding BeamgunState.AlertLog}"/>
-                <TextBox Grid.Row="1"
-                     controls:TextBoxBehavior.ScrollOnTextChanged="True"
-                     AcceptsReturn="True" VerticalScrollBarVisibility="Visible" 
-                     TextWrapping="Wrap" IsReadOnly="True"
-                     Text="{Binding BeamgunState.KeyLog}"/>
-            </Grid>
             <Label Grid.Row="4" Grid.Column="0" FontSize="10" HorizontalAlignment="Center">Copyright © 2016 Josh Lospinoso</Label>
             <tb:TaskbarIcon Name="Taskbar" Grid.Row="5" ToolTipText="Beamgun" IconSource="{Binding BeamgunState.TrayIconPath}" LeftClickCommand="{Binding TrayIconCommand}"/>
         </Grid>

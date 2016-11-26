@@ -37,19 +37,6 @@ namespace BeamgunApp.Models
             }
         }
         
-        public string KeyLog
-        {
-            get
-            {
-                return _keyLog; ;
-            }
-            set
-            {
-                _keyLog = value;
-                OnPropertyChanged(nameof(KeyLog));
-            }
-        }
-        
         public WindowState MainWindowState
         {
             get { return _mainWindowState; }
@@ -92,6 +79,17 @@ namespace BeamgunApp.Models
             }
         }
 
+        public bool DisableNetworkAdapter
+        {
+            get { return _disableNetworkAdapter && IsAdmin; }
+            set
+            {
+                _disableNetworkAdapter = value;
+                OnPropertyChanged(nameof(DisableNetworkAdapter));
+                Registry.SetValue(BeamgunBaseKey, DisableNetworkAdapterSubkey, _disableNetworkAdapter);
+            }
+        }
+
         public bool IsAdmin
         {
             get { return _isAdmin; }
@@ -101,7 +99,7 @@ namespace BeamgunApp.Models
                 OnPropertyChanged(nameof(IsAdmin));
             }
         }
-        
+
         public bool UsbMassStorageEnabled
         {
             get { return _usbMassStorageEnabled; }
@@ -157,12 +155,18 @@ namespace BeamgunApp.Models
         
         public void AppendToAlert(string input)
         {
-            AlertLog += $"{DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()} {input}\n";
+            if (_lastAlertWasKeystroke)
+            {
+                AlertLog += "\n";
+            }
+            AlertLog += $"{GetDateTimeString()}: {input}\n";
+            _lastAlertWasKeystroke = false;
         }
         
         public void AppendToKeyLog(string input)
         {
-            KeyLog += input;
+            AlertLog += _lastAlertWasKeystroke ? input : $"{GetDateTimeString()}: {input}";
+            _lastAlertWasKeystroke = true;
         }
 
         public BeamgunState()
@@ -170,6 +174,7 @@ namespace BeamgunApp.Models
             var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             IsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
 
+            DisableNetworkAdapter = (string)Registry.GetValue(BeamgunBaseKey, DisableNetworkAdapterSubkey, "True") == "True";
             StealFocus = (string)Registry.GetValue(BeamgunBaseKey, StealFocusSubkey, "True") == "True";
             LockWorkStation = (string)Registry.GetValue(BeamgunBaseKey, LockWorkstationSubkey, "False") == "True";
             UsbMassStorageEnabled = (int)Registry.GetValue(UsbMassStorageKey, UsbMassStorageSubkey, 3) == 3;
@@ -181,8 +186,12 @@ namespace BeamgunApp.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private string GetDateTimeString()
+        {
+            return $"{DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}";
+        }
+
         private string _alertLog = "";
-        private string _keyLog = "";
         private string _trayIconPath;
         private string _bannerPath;
         private WindowState _mainWindowState;
@@ -190,11 +199,14 @@ namespace BeamgunApp.Models
         private bool _stealFocus;
         private bool _lockWorkStation;
         private bool _usbMassStorageEnabled;
+        private bool _disableNetworkAdapter;
         private bool _isAdmin;
+        private bool _lastAlertWasKeystroke;
         private const string UsbMassStorageKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\usbstor";
         private const string UsbMassStorageSubkey = "Start";
         private const string BeamgunBaseKey = "HKEY_CURRENT_USER\\SOFTWARE\\Beamgun";
         private const string StealFocusSubkey = "StealFocus";
         private const string LockWorkstationSubkey = "LockWorkStation";
+        private const string DisableNetworkAdapterSubkey = "DisableNetworkAdapter";
     }
 }

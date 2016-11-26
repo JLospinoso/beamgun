@@ -77,16 +77,24 @@ namespace BeamgunApp.ViewModel
                    $"{obj["SystemName"]} ";
                 _alarm.Trigger(alertMessage);
                 BeamgunState.AppendToAlert(alertMessage);
-
-                var query = $"SELECT * FROM Win32_NetworkAdapter WHERE GUID = \"{obj["GUID"]}\"";
+                if (!BeamgunState.DisableNetworkAdapter) return;
+                var query = $"SELECT * FROM Win32_NetworkAdapter WHERE DeviceID = \"{obj["DeviceID"]}\"";
                 var searcher = new ManagementObjectSearcher(query);
                 foreach (var item in searcher.Get())
                 {
                     var managementObject = (ManagementObject)item;
-                    var disableCode = managementObject.InvokeMethod("Disable", null);
-                    BeamgunState.AppendToAlert(disableCode.Equals(0)
-                        ? "Network adapter successfully disabled."
-                        : $"Danger! Unable to disable network adapter: {disableCode}");
+                    try
+                    {
+                        var disableCode = (uint)managementObject.InvokeMethod("Disable", null);
+                        BeamgunState.AppendToAlert(disableCode == 0
+                            ? "Network adapter successfully disabled."
+                            : $"Danger! Unable to disable network adapter: {disableCode}");
+                        return;
+                    }
+                    catch (ManagementException e)
+                    {
+                        BeamgunState.AppendToAlert($"Error disabling new network adapter: {e}");
+                    }
                 }
             };
             _networkWatcher.Start();
@@ -129,22 +137,7 @@ namespace BeamgunApp.ViewModel
         {
             BeamgunState.AppendToAlert("Resetting alarm.");
             BeamgunState.Disabler.Enable();
-            BeamgunState.KeyLog = $"Reset at {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}\n";
             _alarm.Reset();
-        }
-
-        private void SurveyNetworks()
-        {
-            var wmiQuery = new SelectQuery("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionId != NULL");
-            var searchProcedure = new ManagementObjectSearcher(wmiQuery);
-            foreach (var item in searchProcedure.Get())
-            {
-                var managementObject = (ManagementObject)item;
-                var connectionId = (string)managementObject["NetConnectionId"];
-                var result = managementObject.InvokeMethod("Disable", null);
-                var alert = !result.Equals(0) ? $"Could not disable {connectionId}." : $"Disabled {connectionId}.";
-                BeamgunState.AppendToAlert(alert);
-            }
         }
         
         private readonly KeystrokeHooker _keystrokeHooker;
