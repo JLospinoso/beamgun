@@ -33,10 +33,10 @@ Version history
 
 * [BeamgunInstaller-0.1.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.0.msi) | [BeamgunApp-0.1.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.0.zip): First version
 
-Downloads (as of 11/27/2016)
+130 downloads as of 11/27/2016
 ==
-* Beamgun 0.1.1: _108_ (10 MSI, 12 zip)
-* Beamgun 0.1.0: _108_ (84 MSI, 26 zip)
+* Beamgun 0.1.1: 22 (10 MSI, 12 zip)
+* Beamgun 0.1.0: 108 (84 MSI, 26 zip)
 
 Contribute
 ==
