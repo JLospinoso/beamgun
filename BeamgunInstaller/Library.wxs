@@ -21,22 +21,18 @@
          Manufacturer="Josh Lospinoso"
          Description="Rubber Ducky Defeat Software"
          Keywords="Information security,USB monitor"
-         Comments="(c) 2016 Josh Lospinoso"  />
-    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Beamgun" />
+         Comments="(c) 2016 Josh Lospinoso"
+         InstallScope="perMachine" 
+         InstallPrivileges="elevated"/>
     <Property Id="WixShellExecTarget" Value="[#BeamgunApp]" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Beamgun" />
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
     <UI>
         <UIRef Id="WixUI_Minimal" />
-        <Publish Dialog="ExitDialog"
-          Control="Finish" 
-          Event="DoAction" 
-          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1</Publish>
+        <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1</Publish>
     </UI>
-
-    <CustomAction Id='CreateBeamgunTask' Return="check" Execute="deferred" Directory="TARGETDIR" Impersonate="no"
-        ExeCommand='C:\Windows\System32\schtasks.exe /Create /SC ONLOGON /TN Beamgun /TR "C:\Program Files (x86)\Beamgun\BeamgunApp.exe" /F /RL HIGHEST /HRESULT'/>
-    <CustomAction Id='RemoveBeamgunTask' Return="ignore" Execute="deferred" Directory="TARGETDIR" Impersonate="no"
-        ExeCommand='C:\Windows\System32\schtasks.exe /Delete /TN Beamgun /F'/>
 
     <Media Id="1"
        Cabinet="media1.cab"
@@ -48,7 +44,7 @@
     <Property Id="ARPPRODUCTICON" Value="icon.ico" />
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="$(var.PlatformProgramFilesFolder)">
-        <Directory Id="BeamgunDir" Name="Beamgun">
+        <Directory Id="BEAMGUNDIR" Name="Beamgun">
           <Component Id="CMP_BeamgunApp" Guid="*">
             <File Id="BeamgunApp"
               Name="$(var.BeamgunApp.TargetFileName)"
@@ -75,7 +71,7 @@
             <Shortcut Id="StartMenuShortcut"
                       Name="Beamgun"
                       Description="USB Rubberducky Protection"
-                      Target="[BeamgunDir]$(var.BeamgunApp.TargetFileName)"
+                      Target="[BEAMGUNDIR]$(var.BeamgunApp.TargetFileName)"
                       Icon="icon.ico"
                       />
             <RemoveFolder Id="RemoveBeamgunShortcuts" On="uninstall" />
@@ -98,11 +94,14 @@
       <ComponentRef Id="CMP_Interactivity" />
       <ComponentRef Id="CMP_Shortcuts" />
     </Feature>
-    
+    <CustomAction Id='CreateBeamgunTask' Return="check" Execute="commit" Directory="TARGETDIR" Impersonate="no"
+        ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /Create /SC ONLOGON /TN &quot;Beamgun&quot; /TR &quot;&apos;[BEAMGUNDIR]BeamgunApp.exe&apos;&quot; /RU [LogonUser] /F /RL HIGHEST"/>
+
     <InstallExecuteSequence>
-      <Custom Action="CreateBeamgunTask" After="InstallFiles"/>
-      <!--<Custom Action="RemoveBeamgunTask" After="InstallFiles">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>-->
+      <Custom Action="CreateBeamgunTask" Before='InstallFinalize'/>
+    <!--
+      <Custom Action="RemoveBeamgunTask" After="InstallFiles">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>
+    -->
     </InstallExecuteSequence> 
-    
   </Product>
 </Wix>
