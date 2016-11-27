@@ -27,15 +27,16 @@ Check out [this blog post](https://jlospinoso.github.io/infosec/usb%20rubber%20d
 Version history
 ==
 
-* [BeamgunInstaller-0.2.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.0.msi) | [BeamgunApp-0.2.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.0.zip): Major overhaul to alerting mechanism, reimplemented using WMI. Added USB storage disable. Added detection for LAN Turtles.
+* [BeamgunInstaller-0.2.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.0.msi) | [BeamgunApp-0.2.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.0.zip): Major overhaul to alerting mechanism, reimplemented using WMI. Added USB storage disable. Added detection for LAN Turtles. Replaced autorun with Windows Task for elevation.
 
 * [BeamgunInstaller-0.1.1.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.1.msi) | [BeamgunApp-0.1.1.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.1.zip): Fixes to focus stealing, cleaned up WIX installer
 
 * [BeamgunInstaller-0.1.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.0.msi) | [BeamgunApp-0.1.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.0.zip): First version
 
-Downloads (as of 11/25/2016)
+Downloads (as of 11/27/2016)
 ==
-* Beamgun 0.1.0: _108_ (83 MSI, 25 zip)
+* Beamgun 0.1.1: _108_ (10 MSI, 12 zip)
+* Beamgun 0.1.0: _108_ (84 MSI, 26 zip)
 
 Contribute
 ==
