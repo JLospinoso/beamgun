@@ -23,7 +23,7 @@
          Keywords="Information security,USB monitor"
          Comments="(c) 2016 Josh Lospinoso"  />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Beamgun" />
-    <Property Id="WixShellExecTarget" Value="C:/Program Files (x86)/Beamgun/BeamgunApp.exe" />
+    <Property Id="WixShellExecTarget" Value="[#BeamgunApp]" />
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
     <UI>
         <UIRef Id="WixUI_Minimal" />
@@ -32,6 +32,12 @@
           Event="DoAction" 
           Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1</Publish>
     </UI>
+
+    <CustomAction Id='CreateBeamgunTask' Return="check" Execute="deferred" Directory="TARGETDIR" Impersonate="no"
+        ExeCommand='C:\Windows\System32\schtasks.exe /Create /SC ONLOGON /TN Beamgun /TR "C:\Program Files (x86)\Beamgun\BeamgunApp.exe" /F /RL HIGHEST /HRESULT'/>
+    <CustomAction Id='RemoveBeamgunTask' Return="ignore" Execute="deferred" Directory="TARGETDIR" Impersonate="no"
+        ExeCommand='C:\Windows\System32\schtasks.exe /Delete /TN Beamgun /F'/>
+
     <Media Id="1"
        Cabinet="media1.cab"
        EmbedCab="yes" />
@@ -80,14 +86,6 @@
                  Value="1"
                  KeyPath="yes" />
           </Component>
-          <Component Id="CMP_Autorun" Guid="*">
-            <RegistryValue Root="HKCU"
-                 Key="Software\Microsoft\Windows\CurrentVersion\Run"
-                 Name="Beamgun"
-                 Type="string"
-                 Value="[#BeamgunApp]"
-                 KeyPath="yes" />
-          </Component>
         </Directory>
       </Directory>
     </Directory>
@@ -99,7 +97,12 @@
       <ComponentRef Id="CMP_NotifyIconWpf" />
       <ComponentRef Id="CMP_Interactivity" />
       <ComponentRef Id="CMP_Shortcuts" />
-      <ComponentRef Id="CMP_Autorun" />
     </Feature>
+    
+    <InstallExecuteSequence>
+      <Custom Action="CreateBeamgunTask" After="InstallFiles"/>
+      <!--<Custom Action="RemoveBeamgunTask" After="InstallFiles">(NOT UPGRADINGPRODUCTCODE) AND (REMOVE="ALL")</Custom>-->
+    </InstallExecuteSequence> 
+    
   </Product>
 </Wix>

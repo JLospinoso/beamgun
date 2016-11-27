@@ -91,7 +91,7 @@ namespace BeamgunApp.ViewModel
                             : $"Danger! Unable to disable network adapter: {disableCode}");
                         return;
                     }
-                    catch (ManagementException e)
+                    catch (ManagementException e) 
                     {
                         BeamgunState.AppendToAlert($"Error disabling new network adapter: {e}");
                     }
