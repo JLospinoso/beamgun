@@ -5,13 +5,29 @@ using BeamgunApp.ViewModel;
 
 namespace BeamgunApp.Commands
 {
+    public interface IExiter
+    {
+        void Exit();
+    }
+
+    public class DefaultExiter : IExiter
+    {
+        public void Exit()
+        {
+            Application.Current.Shutdown();
+        }
+    }
+
     public class ExitCommand : ICommand
     {
-        private readonly BeamgunViewModel _viewModel;
+        public IExiter Exiter { get; set; }
 
-        public ExitCommand(BeamgunViewModel viewModel)
+        private readonly IViewModel _viewModel;
+
+        public ExitCommand(IViewModel viewModel)
         {
             _viewModel = viewModel;
+            Exiter = new DefaultExiter();
         }
 
         public bool CanExecute(object parameter)
@@ -22,7 +38,7 @@ namespace BeamgunApp.Commands
         public void Execute(object parameter)
         {
             _viewModel.Reset();
-            Application.Current.Shutdown();
+            Exiter.Exit();
         }
 
         public event EventHandler CanExecuteChanged

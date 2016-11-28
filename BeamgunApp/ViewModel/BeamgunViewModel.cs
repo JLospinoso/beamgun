@@ -14,6 +14,8 @@ namespace BeamgunApp.ViewModel
     {
         bool IsVisible { get; set; }
         void DoStealFocus();
+        void Reset();
+        void DisableUntil(DateTime minutes);
     }
 
     public class BeamgunViewModel : IDisposable, IViewModel

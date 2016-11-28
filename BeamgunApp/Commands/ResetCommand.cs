@@ -6,9 +6,9 @@ namespace BeamgunApp.Commands
 {
     public class ResetCommand : ICommand
     {
-        private readonly BeamgunViewModel _viewModel;
+        private readonly IViewModel _viewModel;
 
-        public ResetCommand(BeamgunViewModel viewModel)
+        public ResetCommand(IViewModel viewModel)
         {
             _viewModel = viewModel;
         }

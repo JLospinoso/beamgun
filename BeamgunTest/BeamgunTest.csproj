@@ -58,6 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ResetCommandTest.cs" />
+    <Compile Include="Commands\ExitCommandTest.cs" />
+    <Compile Include="Commands\DisableCommandTest.cs" />
     <Compile Include="Commands\DeactivatedCommandTest.cs" />
     <Compile Include="Commands\TrayIconCommandTest.cs" />
     <Compile Include="DisablerTest.cs" />

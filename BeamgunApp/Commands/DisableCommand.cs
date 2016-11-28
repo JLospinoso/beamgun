@@ -4,11 +4,11 @@ using BeamgunApp.ViewModel;
 
 namespace BeamgunApp.Commands
 {
-    class DisableCommand : ICommand
+    public class DisableCommand : ICommand
     {
-        private readonly BeamgunViewModel _viewModel;
+        private readonly IViewModel _viewModel;
 
-        public DisableCommand(BeamgunViewModel viewModel)
+        public DisableCommand(IViewModel viewModel)
         {
             _viewModel = viewModel;
         }
