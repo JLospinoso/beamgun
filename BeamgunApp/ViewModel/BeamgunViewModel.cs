@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Management;
+using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using BeamgunApp.Commands;
@@ -119,6 +121,7 @@ namespace BeamgunApp.ViewModel
                     : "Could not lock the workstation.");
             };
             _keyboardWatcher.Start();
+            _updateTimer = new Timer(state => CheckForUpdates(), null, 0, 1000 * 60 * 60 * 24);
         }
 
         public void DisableUntil(DateTime time)
@@ -139,7 +142,27 @@ namespace BeamgunApp.ViewModel
             BeamgunState.Disabler.Enable();
             _alarm.Reset();
         }
-        
+
+        private void CheckForUpdates()
+        {
+            try
+            {
+                var versionChecker = new VersionChecker();
+                var availableVersion = versionChecker.LatestVersion;
+                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                BeamgunState.UpdateUrl = versionChecker.DownloadUrl;
+                BeamgunState.AppendToAlert(
+                    availableVersion > currentVersion
+                        ? $"Version {availableVersion} is available at {versionChecker.DownloadUrl}"
+                        : $"Beamgun is up to date.");
+            }
+            catch (Exception e)
+            {
+                BeamgunState.AppendToAlert($"Unable to connect to update server. {e.Message}");
+            }
+        }
+
+        private readonly Timer _updateTimer;
         private readonly KeystrokeHooker _keystrokeHooker;
         private readonly Alarm _alarm;
         private readonly ManagementEventWatcher _networkWatcher, _keyboardWatcher;
