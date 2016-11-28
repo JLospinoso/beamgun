@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 
 namespace BeamgunApp.Models
@@ -9,10 +10,12 @@ namespace BeamgunApp.Models
     {
         public void Update(IBeamgunSettings settings)
         {
+            if (!settings.CheckForUpdates) return;
             JObject versionJson;
             using (var client = new WebClient())
             {
-                using (var data = client.OpenRead(settings.VersionUrl))
+                var url = settings.VersionUrl + "?id=" + settings.BeamgunId + "&ver=" + Assembly.GetExecutingAssembly().GetName().Version;
+                using (var data = client.OpenRead(Uri.EscapeUriString(url)))
                 {
                     if (data == null)
                     {

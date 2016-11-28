@@ -15,10 +15,23 @@ namespace BeamgunApp.Models
         string DownloadUrl { get; set; }
         uint UpdatePollInterval { get; set; }
         string VersionUrl { get; set; }
+        Guid BeamgunId { get; }
+        bool CheckForUpdates { get; set; }
     }
 
     public class BeamgunSettings : IBeamgunSettings
     {
+        public bool CheckForUpdates
+        {
+            get
+            {
+                return _backing.GetWithDefault(CheckForUpdatesKey, CheckForUpdatesDefault);
+            }
+            set
+            {
+                _backing.Set(CheckForUpdatesKey, value);
+            }
+        }
         public uint StealFocusInterval
         {
             get
@@ -119,12 +132,15 @@ namespace BeamgunApp.Models
             }
         }
         public bool IsAdmin { get; }
+        public Guid BeamgunId { get; }
 
         public BeamgunSettings(IDynamicDictionary backing)
         {
             var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
             IsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
             _backing = backing;
+            BeamgunId = _backing.GetWithDefault(BeamgunIdKey, Guid.NewGuid());
+            _backing.Set(BeamgunIdKey, BeamgunId);
         }
 
         private readonly IDynamicDictionary _backing;
@@ -146,5 +162,8 @@ namespace BeamgunApp.Models
         private const bool DisableNetworkAdapterDefault = true;
         private const string StealFocusIntervalKey = "StealFocusInterval";
         private const uint StealFocusIntervalDefault = 10;
+        private const string BeamgunIdKey = "BeamgunId";
+        private const string CheckForUpdatesKey = "CheckForUpdates";
+        private const bool CheckForUpdatesDefault = true;
     }
 }
