@@ -10,7 +10,13 @@ using KeyConverter = BeamgunApp.Models.KeyConverter;
 
 namespace BeamgunApp.ViewModel
 {
-    public class BeamgunViewModel : IDisposable
+    public interface IViewModel
+    {
+        bool IsVisible { get; set; }
+        void DoStealFocus();
+    }
+
+    public class BeamgunViewModel : IDisposable, IViewModel
     {
         public BeamgunState BeamgunState { get; }
         public ICommand DisableCommand { get; }
@@ -19,6 +25,18 @@ namespace BeamgunApp.ViewModel
         public ICommand ResetCommand { get; }
         public ICommand ExitCommand { get; }
         public Action StealFocus { get; set; }
+
+        public bool IsVisible
+        {
+            get
+            {
+                return BeamgunState.MainWindowVisibility == Visibility.Visible;
+            }
+            set
+            {
+                BeamgunState.MainWindowVisibility = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
 
         public BeamgunViewModel()
         {
@@ -43,10 +61,7 @@ namespace BeamgunApp.ViewModel
             {
                 BeamgunState.MainWindowState = WindowState.Normal;
                 BeamgunState.MainWindowVisibility = Visibility.Visible;
-                if (BeamgunState.StealFocus)
-                {
-                    StealFocus();
-                }
+                DoStealFocus();
             };
             var workstationLocker = new WorkstationLocker();
             
@@ -124,6 +139,14 @@ namespace BeamgunApp.ViewModel
             _updateTimer = new Timer(state => CheckForUpdates(), null, 0, 1000 * 60 * 60 * 24);
         }
 
+        public void DoStealFocus()
+        {
+            if (BeamgunState.StealFocus)
+            {
+                StealFocus();
+            }
+        }
+
         public void DisableUntil(DateTime time)
         {
             BeamgunState.Disabler.DisableUntil(time);
@@ -134,6 +157,7 @@ namespace BeamgunApp.ViewModel
             _keystrokeHooker.Dispose();
             _networkWatcher.Stop();
             _keyboardWatcher.Stop();
+            _updateTimer.Dispose();
         }
 
         public void Reset()
