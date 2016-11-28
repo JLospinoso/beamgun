@@ -1,9 +1,8 @@
-﻿using System;
-using BeamgunApp.Commands;
-using BeamgunApp.Models;
+﻿using BeamgunApp.Commands;
 using BeamgunApp.ViewModel;
 using Moq;
 using NUnit.Framework;
+using Shouldly;
 
 namespace BeamgunTest.Commands
 {
@@ -39,8 +38,16 @@ namespace BeamgunTest.Commands
             var command = new TrayIconCommand(viewModel);
 
             command.Execute(null);
-            
+
             Mock.Get(viewModel).Verify(x => x.DoStealFocus());
+        }
+
+        [Test]
+        public void IsExecutable()
+        {
+            var command = new TrayIconCommand(Mock.Of<IViewModel>());
+
+            command.CanExecute(null).ShouldBeTrue();
         }
     }
 }
