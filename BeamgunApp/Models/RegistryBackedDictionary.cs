@@ -4,6 +4,7 @@ namespace BeamgunApp.Models
 {
     public interface IDynamicDictionary
     {
+        bool GetWithDefault(string key, bool defaultValue);
         T GetWithDefault<T>(string key, T defaultValue);
         void Set<T>(string key, T value);
     }
@@ -15,6 +16,11 @@ namespace BeamgunApp.Models
         public T GetWithDefault<T>(string key, T defaultValue)
         {
             return (T)Registry.GetValue(BeamgunBaseKey, key, defaultValue);
+        }
+
+        public bool GetWithDefault(string key, bool defaultValue)
+        {
+            return (string)Registry.GetValue(BeamgunBaseKey, key, defaultValue) == "True";
         }
 
         public void Set<T>(string key, T value)

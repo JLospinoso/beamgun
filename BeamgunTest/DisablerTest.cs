@@ -7,7 +7,6 @@ using NUnit.Framework;
 
 namespace BeamgunTest
 {
-    //TODO: Now that this is mocked, revisit.
     [TestFixture]
     public class DisablerTest
     {
@@ -18,6 +17,8 @@ namespace BeamgunTest
             var disabler = new Disabler(state);
 
             disabler.Enable();
+
+            Mock.Get(state).Verify(x => x.SetGraphicsArmed());
         }
 
         [Test]
@@ -93,7 +94,7 @@ namespace BeamgunTest
 
             disabler.DisableUntil(DateTime.Now.AddMilliseconds(50));
 
-            //Assert.IsNotNull(state.TrayIconPath);
+            Mock.Get(state).Verify(x => x.SetGraphicsDisabled());
         }
 
         [Test]

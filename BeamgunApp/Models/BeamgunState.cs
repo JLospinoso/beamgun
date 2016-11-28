@@ -89,13 +89,13 @@ namespace BeamgunApp.Models
         }
         public bool IsAdmin => _settings.IsAdmin;
 
-        public bool UsbMassStorageEnabled
+        public bool UsbMassStorageDisabled
         {
-            get { return _usbMassStorageEnabled; }
+            get { return _usbMassStorageDisabled; }
             set
             {
-                _usbMassStorageEnabled = value;
-                OnPropertyChanged(nameof(UsbMassStorageEnabled));
+                _usbMassStorageDisabled = value;
+                OnPropertyChanged(nameof(UsbMassStorageDisabled));
             }
         }
 
@@ -171,7 +171,7 @@ namespace BeamgunApp.Models
         private string _bannerPath;
         private WindowState _mainWindowState;
         private Visibility _mainWindowVisibility;
-        private bool _usbMassStorageEnabled;
+        private bool _usbMassStorageDisabled;
         private bool _lastAlertWasKeystroke;
     }
 }

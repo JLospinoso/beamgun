@@ -7,7 +7,7 @@ namespace BeamgunApp.Models
 {
     public class VersionChecker
     {
-        public void Update(BeamgunSettings settings)
+        public void Update(IBeamgunSettings settings)
         {
             JObject versionJson;
             using (var client = new WebClient())

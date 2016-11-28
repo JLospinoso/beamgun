@@ -104,11 +104,14 @@
     <Compile Include="Controls\TextBoxBehavior.cs" />
     <Compile Include="Models\BeamgunSettings.cs" />
     <Compile Include="Models\Disabler.cs" />
+    <Compile Include="Models\NetworkWatcher.cs" />
+    <Compile Include="Models\KeyboardWatcher.cs" />
     <Compile Include="Models\KeyConverter.cs" />
     <Compile Include="Models\KeystrokeHooker.cs" />
     <Compile Include="Models\RegistryBackedDictionary.cs" />
     <Compile Include="Models\UsbStorageGuard.cs" />
     <Compile Include="Models\VersionChecker.cs" />
+    <Compile Include="Models\VersionCheckerTimer.cs" />
     <Compile Include="Models\WorkstationLocker.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Models\BeamgunState.cs" />

@@ -10,10 +10,26 @@ namespace BeamgunApp.Models
         bool StealFocusEnabled { get; set; }
         bool LockWorkstation { get; set; }
         bool DisableNetworkAdapter { get; set; }
+        uint StealFocusInterval { get; set; }
+        Version LatestVersion { get; set; }
+        string DownloadUrl { get; set; }
+        uint UpdatePollInterval { get; set; }
+        string VersionUrl { get; set; }
     }
 
     public class BeamgunSettings : IBeamgunSettings
     {
+        public uint StealFocusInterval
+        {
+            get
+            {
+                return _backing.GetWithDefault(StealFocusIntervalKey, StealFocusIntervalDefault);
+            }
+            set
+            {
+                _backing.Set(StealFocusIntervalKey, value);
+            }
+        }
         public string VersionUrl
         {
             get
@@ -128,5 +144,7 @@ namespace BeamgunApp.Models
         private const bool LockWorkstationDefault = true;
         private const string DisableNetworkAdapterSubkey = "DisableNetworkAdapter";
         private const bool DisableNetworkAdapterDefault = true;
+        private const string StealFocusIntervalKey = "StealFocusInterval";
+        private const uint StealFocusIntervalDefault = 10;
     }
 }

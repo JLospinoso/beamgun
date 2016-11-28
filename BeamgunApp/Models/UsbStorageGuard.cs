@@ -4,22 +4,27 @@ namespace BeamgunApp.Models
 {
     public class UsbStorageGuard
     {
-        public bool Enabled
+        public bool UsbStorageDisabled
         {
             get
             {
-                return (int)Registry.GetValue(UsbMassStorageKey, UsbMassStorageSubkey, 3) == 3;
+                return (int)Registry.GetValue(UsbMassStorageKey, UsbMassStorageSubkey, 4) == 4;
             }
             set
             {
                 if (!_settings.IsAdmin) return;
-                Registry.SetValue(UsbMassStorageKey, UsbMassStorageSubkey, value ? 3 : 4);
+                Registry.SetValue(UsbMassStorageKey, UsbMassStorageSubkey, value ? 4 : 3);
             }
         }
 
         public UsbStorageGuard(IBeamgunSettings settings)
         {
             _settings = settings;
+        }
+
+        public void Dispose()
+        {
+            //NOP
         }
 
         private readonly IBeamgunSettings _settings;
