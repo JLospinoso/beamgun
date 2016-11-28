@@ -23,6 +23,10 @@ namespace BeamgunApp.Commands
         {
             var isVisible = _viewModel.BeamgunState.MainWindowVisibility == Visibility.Visible;
             _viewModel.BeamgunState.MainWindowVisibility = isVisible ? Visibility.Hidden : Visibility.Visible;
+            if (_viewModel.BeamgunState.MainWindowVisibility == Visibility.Visible)
+            {
+                _viewModel.StealFocus();
+            }
         }
 
         public event EventHandler CanExecuteChanged
