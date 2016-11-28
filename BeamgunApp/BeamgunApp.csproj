@@ -102,9 +102,11 @@
     <Compile Include="Commands\DeactivatedCommand.cs" />
     <Compile Include="Commands\TrayIconCommand.cs" />
     <Compile Include="Controls\TextBoxBehavior.cs" />
+    <Compile Include="Models\BeamgunSettings.cs" />
     <Compile Include="Models\Disabler.cs" />
     <Compile Include="Models\KeyConverter.cs" />
     <Compile Include="Models\KeystrokeHooker.cs" />
+    <Compile Include="Models\RegistryBackedDictionary.cs" />
     <Compile Include="Models\VersionChecker.cs" />
     <Compile Include="Models\WorkstationLocker.cs" />
     <Compile Include="Properties\Annotations.cs" />

@@ -42,13 +42,14 @@ namespace BeamgunApp.ViewModel
 
         public BeamgunViewModel()
         {
+            _beamgunSettings = new BeamgunSettings(new RegistryBackedDictionary());
             BeamgunState = new BeamgunState
             {
                 MainWindowVisibility = Visibility.Hidden
             };
             BeamgunState.Disabler = new Disabler(BeamgunState);
             BeamgunState.Disabler.Enable();
-            DisableCommand = new DisableCommand(this);
+            DisableCommand = new DisableCommand(this, _beamgunSettings);
             TrayIconCommand = new TrayIconCommand(this);
             LoseFocusCommand = new DeactivatedCommand(this);
             ResetCommand = new ResetCommand(this);
@@ -138,7 +139,25 @@ namespace BeamgunApp.ViewModel
                     : "Could not lock the workstation.");
             };
             _keyboardWatcher.Start();
-            _updateTimer = new Timer(state => CheckForUpdates(), null, 0, 1000 * 60 * 60 * 24);
+
+            _versionChecker = new VersionChecker();
+            _updateTimer = new Timer(state =>
+            {
+                try
+                {
+                    _versionChecker.Update(_beamgunSettings);
+                    var availableVersion = _beamgunSettings.LatestVersion;
+                    var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                    BeamgunState.AppendToAlert(
+                        availableVersion > currentVersion
+                            ? $"Version {availableVersion} is available at {_beamgunSettings.DownloadUrl}"
+                            : $"Beamgun is up to date.");
+                }
+                catch (Exception e)
+                {
+                    BeamgunState.AppendToAlert($"Unable to connect to update server. {e.Message}");
+                }
+            }, null, 0, _beamgunSettings.UpdatePollInterval);
         }
 
         public void DoStealFocus()
@@ -168,29 +187,12 @@ namespace BeamgunApp.ViewModel
             BeamgunState.Disabler.Enable();
             _alarm.Reset();
         }
-
-        private void CheckForUpdates()
-        {
-            try
-            {
-                var versionChecker = new VersionChecker();
-                var availableVersion = versionChecker.LatestVersion;
-                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-                BeamgunState.UpdateUrl = versionChecker.DownloadUrl;
-                BeamgunState.AppendToAlert(
-                    availableVersion > currentVersion
-                        ? $"Version {availableVersion} is available at {versionChecker.DownloadUrl}"
-                        : $"Beamgun is up to date.");
-            }
-            catch (Exception e)
-            {
-                BeamgunState.AppendToAlert($"Unable to connect to update server. {e.Message}");
-            }
-        }
-
+        
         private readonly Timer _updateTimer;
         private readonly KeystrokeHooker _keystrokeHooker;
         private readonly Alarm _alarm;
         private readonly ManagementEventWatcher _networkWatcher, _keyboardWatcher;
+        private readonly BeamgunSettings _beamgunSettings;
+        private readonly VersionChecker _versionChecker;
     }
 }

@@ -1,26 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 
 namespace BeamgunApp.Models
 {
     public class VersionChecker
     {
-        public readonly Version LatestVersion;
-        public readonly string DownloadUrl;
-        private const string DefaultUrl = "https://s3.amazonaws.com/net.lospi.beamgun/version.json";
-        private const string BeamgunBaseKey = "HKEY_CURRENT_USER\\SOFTWARE\\Beamgun";
-        private const string VersionUrlSubkey = "VersionUrl";
-
-        public VersionChecker()
+        public void Update(BeamgunSettings settings)
         {
             JObject versionJson;
-            var url = (string)Registry.GetValue(BeamgunBaseKey, VersionUrlSubkey, DefaultUrl);
             using (var client = new WebClient())
             {
-                using (var data = client.OpenRead(url))
+                using (var data = client.OpenRead(settings.VersionUrl))
                 {
                     if (data == null)
                     {
@@ -32,9 +24,16 @@ namespace BeamgunApp.Models
                     }
                 }
             }
-            LatestVersion = new Version(versionJson["latest_version"].ToString());
-            DownloadUrl = versionJson["download_url"].ToString();
-            Registry.SetValue(BeamgunBaseKey, VersionUrlSubkey, versionJson["update_version_url"].ToString());
+            try
+            {
+                settings.LatestVersion = new Version(versionJson["latest_version"].ToString());
+                settings.DownloadUrl = versionJson["download_url"].ToString();
+                settings.VersionUrl = versionJson["update_version_url"].ToString();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Could not parse update results from server.", e);
+            }
         }
     }
 }

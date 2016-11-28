@@ -14,16 +14,6 @@ namespace BeamgunApp.Models
 
         public Disabler Disabler { get; set; }
         
-        public string UpdateUrl
-        {
-            get { return _updateUrl; }
-            set
-            {
-                _updateUrl = value;
-                OnPropertyChanged(nameof(UpdateUrl));
-            }
-        }
-
         public string TrayIconPath
         {
             get { return _trayIconPath; }
@@ -204,7 +194,6 @@ namespace BeamgunApp.Models
         private string _alertLog = "";
         private string _trayIconPath;
         private string _bannerPath;
-        private string _updateUrl;
         private WindowState _mainWindowState;
         private Visibility _mainWindowVisibility;
         private bool _stealFocus;
