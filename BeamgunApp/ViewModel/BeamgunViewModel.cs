@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Management;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -43,7 +44,7 @@ namespace BeamgunApp.ViewModel
         public BeamgunViewModel()
         {
             _beamgunSettings = new BeamgunSettings(new RegistryBackedDictionary());
-            BeamgunState = new BeamgunState
+            BeamgunState = new BeamgunState(_beamgunSettings)
             {
                 MainWindowVisibility = Visibility.Hidden
             };
@@ -58,6 +59,24 @@ namespace BeamgunApp.ViewModel
             const uint repeatInterval = 10;
             var converter = new KeyConverter();
             _keystrokeHooker = new KeystrokeHooker();
+
+            var usbGuard = new UsbStorageGuard(_beamgunSettings);
+            BeamgunState.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName != nameof(BeamgunState.UsbMassStorageEnabled)) return;
+                if (!_beamgunSettings.IsAdmin)
+                {
+                    BeamgunState.AppendToAlert("Cannot change USB Mass Storage settings without administrative privileges.");
+                }
+                try
+                {
+                    usbGuard.Enabled = BeamgunState.UsbMassStorageEnabled;
+                }
+                catch (PrivilegeNotHeldException e)
+                {
+                    BeamgunState.AppendToAlert($"Privileges exception: {e.Message}");
+                }
+            };
 
             _alarm = new Alarm(repeatInterval, BeamgunState);
             _alarm.AlarmCallback += () =>

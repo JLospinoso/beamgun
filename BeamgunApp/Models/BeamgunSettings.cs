@@ -1,10 +1,15 @@
 ﻿using System;
+using System.Security.Principal;
 
 namespace BeamgunApp.Models
 {
     public interface IBeamgunSettings
     {
+        bool IsAdmin { get; }
         double DisableTime { get; set; }
+        bool StealFocusEnabled { get; set; }
+        bool LockWorkstation { get; set; }
+        bool DisableNetworkAdapter { get; set; }
     }
 
     public class BeamgunSettings : IBeamgunSettings
@@ -64,9 +69,45 @@ namespace BeamgunApp.Models
                 _backing.Set(DisableTimeKey, value);
             }
         }
+        public bool StealFocusEnabled
+        {
+            get
+            {
+                return _backing.GetWithDefault(StealFocusEnabledSubkey, StealFocusEnabledDefault);
+            }
+            set
+            {
+                _backing.Set(StealFocusEnabledSubkey, value);
+            }
+        }
+        public bool LockWorkstation
+        {
+            get
+            {
+                return _backing.GetWithDefault(LockWorkstationSubkey, LockWorkstationDefault);
+            }
+            set
+            {
+                _backing.Set(LockWorkstationSubkey, value);
+            }
+        }
+        public bool DisableNetworkAdapter
+        {
+            get
+            {
+                return _backing.GetWithDefault(DisableNetworkAdapterSubkey, DisableNetworkAdapterDefault);
+            }
+            set
+            {
+                _backing.Set(DisableNetworkAdapterSubkey, value);
+            }
+        }
+        public bool IsAdmin { get; }
 
         public BeamgunSettings(IDynamicDictionary backing)
         {
+            var principal = new WindowsPrincipal(WindowsIdentity.GetCurrent());
+            IsAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
             _backing = backing;
         }
 
@@ -81,5 +122,11 @@ namespace BeamgunApp.Models
         private const uint UpdatePollIntervalDefault = 1000 * 60 * 60 * 24;
         private const string DisableTimeKey = "DisableTime";
         private const double DisableTimeDefault = 30;
+        private const string StealFocusEnabledSubkey = "StealFocus";
+        private const bool StealFocusEnabledDefault = true;
+        private const string LockWorkstationSubkey = "LockWorkStation";
+        private const bool LockWorkstationDefault = true;
+        private const string DisableNetworkAdapterSubkey = "DisableNetworkAdapter";
+        private const bool DisableNetworkAdapterDefault = true;
     }
 }

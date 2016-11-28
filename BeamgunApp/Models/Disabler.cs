@@ -6,7 +6,7 @@ namespace BeamgunApp.Models
 {
     public class Disabler
     {
-        public Disabler(BeamgunState beamgunState)
+        public Disabler(IBeamgunState beamgunState)
         {
             _beamgunState = beamgunState;
         }
@@ -49,6 +49,6 @@ namespace BeamgunApp.Models
         }
 
         private DateTime? _disableUntil;
-        private readonly BeamgunState _beamgunState;
+        private readonly IBeamgunState _beamgunState;
     }
 }
