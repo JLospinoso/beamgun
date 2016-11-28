@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using BeamgunApp.Annotations;
-using System.Security.Principal;
 
 namespace BeamgunApp.Models
 {
