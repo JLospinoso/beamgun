@@ -65,6 +65,7 @@
     <Compile Include="Commands\TrayIconCommandTest.cs" />
     <Compile Include="DisablerTest.cs" />
     <Compile Include="KeyConverterTest.cs" />
+    <Compile Include="Models\KeystrokeHookerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

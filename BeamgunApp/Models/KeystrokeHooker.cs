@@ -48,11 +48,10 @@ namespace BeamgunApp.Models
                     return CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
                 };
                 _hookId = SetHook();
-
             }
             else
             {
-                throw new Exception();
+                throw new Exception("Hook has already been set.");
             }
         }
 
@@ -69,6 +68,7 @@ namespace BeamgunApp.Models
         {
             GC.KeepAlive(KeyboardHook);
             UnhookWindowsHookEx(_hookId);
+            Interlocked.Exchange(ref _hookSet, 0);
         }
     }
 }
