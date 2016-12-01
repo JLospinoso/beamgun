@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows.Input;
+using BeamgunApp.Models;
 using BeamgunApp.ViewModel;
 
 namespace BeamgunApp.Commands
 {
-    class DisableCommand : ICommand
+    public class DisableCommand : ICommand
     {
-        private readonly BeamgunViewModel _viewModel;
-
-        public DisableCommand(BeamgunViewModel viewModel)
+        public DisableCommand(IViewModel viewModel, IBeamgunSettings beamgunSettings)
         {
             _viewModel = viewModel;
+            _beamgunSettings = beamgunSettings;
         }
 
         public bool CanExecute(object parameter)
@@ -21,7 +21,7 @@ namespace BeamgunApp.Commands
         public void Execute(object parameter)
         {
             _viewModel.Reset();
-            _viewModel.DisableUntil(DateTime.Now.AddMinutes(30));
+            _viewModel.DisableUntil(DateTime.Now.AddMinutes(_beamgunSettings.DisableTime));
         }
 
         public event EventHandler CanExecuteChanged
@@ -29,5 +29,8 @@ namespace BeamgunApp.Commands
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
         }
+        
+        private readonly IViewModel _viewModel;
+        private readonly IBeamgunSettings _beamgunSettings;
     }
 }

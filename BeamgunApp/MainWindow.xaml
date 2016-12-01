@@ -102,8 +102,8 @@
                     <Label>Disable new net adapters</Label>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageEnabled}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
-                    <Label>Enable USB Storage</Label>
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageDisabled}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
+                    <Label>Disable USB Storage</Label>
                 </StackPanel>
             </StackPanel>
             <TextBox Grid.Row="3" 

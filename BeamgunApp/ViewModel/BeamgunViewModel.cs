@@ -1,14 +1,21 @@
 ﻿using System;
-using System.Management;
+using System.Security.AccessControl;
 using System.Windows;
 using System.Windows.Input;
 using BeamgunApp.Commands;
 using BeamgunApp.Models;
-using KeyConverter = BeamgunApp.Models.KeyConverter;
 
 namespace BeamgunApp.ViewModel
 {
-    public class BeamgunViewModel : IDisposable
+    public interface IViewModel
+    {
+        bool IsVisible { get; set; }
+        void DoStealFocus();
+        void Reset();
+        void DisableUntil(DateTime minutes);
+    }
+
+    public class BeamgunViewModel : IDisposable, IViewModel
     {
         public BeamgunState BeamgunState { get; }
         public ICommand DisableCommand { get; }
@@ -17,108 +24,109 @@ namespace BeamgunApp.ViewModel
         public ICommand ResetCommand { get; }
         public ICommand ExitCommand { get; }
         public Action StealFocus { get; set; }
+        public bool IsVisible
+        {
+            get
+            {
+                return BeamgunState.MainWindowVisibility == Visibility.Visible;
+            }
+            set
+            {
+                BeamgunState.MainWindowVisibility = value ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
 
         public BeamgunViewModel()
         {
-            BeamgunState = new BeamgunState
+            var beamgunSettings = new BeamgunSettings(new RegistryBackedDictionary());
+            BeamgunState = new BeamgunState(beamgunSettings)
             {
                 MainWindowVisibility = Visibility.Hidden
             };
+            // TODO: This bi-directional relationship feels bad.
             BeamgunState.Disabler = new Disabler(BeamgunState);
-            BeamgunState.Disabler.Enable();
-            DisableCommand = new DisableCommand(this);
+            BeamgunState.Disabler.Enable(); 
+            DisableCommand = new DisableCommand(this, beamgunSettings);
             TrayIconCommand = new TrayIconCommand(this);
             LoseFocusCommand = new DeactivatedCommand(this);
             ResetCommand = new ResetCommand(this);
             ExitCommand = new ExitCommand(this);
-
-            const uint repeatInterval = 10;
-            var converter = new KeyConverter();
-            _keystrokeHooker = new KeystrokeHooker();
-
-            _alarm = new Alarm(repeatInterval, BeamgunState);
-            _alarm.AlarmCallback += () =>
+            _keystrokeHooker = InstallKeystrokeHooker();
+            _usbStorageGuard = InstallUsbStorageGuard(beamgunSettings);
+            _alarm = InstallAlarm(beamgunSettings);
+            _networkWatcher = new NetworkWatcher(beamgunSettings,
+                x => BeamgunState.AppendToAlert(x),
+                x =>
+                {
+                    _alarm.Trigger(x);
+                    BeamgunState.SetGraphicsLanAlert();
+                });
+            _keyboardWatcher = new KeyboardWatcher(beamgunSettings, 
+                new WorkstationLocker(), 
+                x => BeamgunState.AppendToAlert(x),
+                x =>
+                {
+                    _alarm.Trigger(x);
+                    BeamgunState.SetGraphicsKeyboardAlert();
+                });
+            _updateTimer = new VersionCheckerTimer(beamgunSettings, 
+                new VersionChecker(), 
+                x => BeamgunState.AppendToAlert(x) );
+        }
+        
+        private Alarm InstallAlarm(IBeamgunSettings beamgunSettings)
+        {
+            var alarm = new Alarm(beamgunSettings.StealFocusInterval, BeamgunState);
+            alarm.AlarmCallback += () =>
             {
                 BeamgunState.MainWindowState = WindowState.Normal;
                 BeamgunState.MainWindowVisibility = Visibility.Visible;
-                if (BeamgunState.StealFocus)
+                DoStealFocus();
+            };
+            return alarm;
+        }
+
+        private UsbStorageGuard InstallUsbStorageGuard(IBeamgunSettings beamgunSettings)
+        {
+            var usbGuard = new UsbStorageGuard(beamgunSettings);
+            BeamgunState.UsbMassStorageDisabled = usbGuard.UsbStorageDisabled;
+            BeamgunState.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName != nameof(BeamgunState.UsbMassStorageDisabled)) return;
+                if (!beamgunSettings.IsAdmin)
                 {
-                    StealFocus();
+                    BeamgunState.AppendToAlert("Cannot change USB Mass Storage settings without administrative privileges.");
+                }
+                try
+                {
+                    usbGuard.UsbStorageDisabled = BeamgunState.UsbMassStorageDisabled;
+                }
+                catch (PrivilegeNotHeldException e)
+                {
+                    BeamgunState.AppendToAlert($"Privileges exception: {e.Message}");
                 }
             };
-            var workstationLocker = new WorkstationLocker();
-            
-            _keystrokeHooker.Callback += key =>
+            return usbGuard;
+        }
+
+        private KeystrokeHooker InstallKeystrokeHooker()
+        {
+            var converter = new Models.KeyConverter();
+            var keystrokeHooker = new KeystrokeHooker();
+            keystrokeHooker.Callback += key =>
             {
                 if (!_alarm.Triggered) return;
                 BeamgunState.AppendToKeyLog(converter.Convert(key));
             };
+            return keystrokeHooker;
+        }
 
-            var networkQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_NetworkAdapter\"");
-            _networkWatcher = new ManagementEventWatcher(networkQuery);
-            _networkWatcher.EventArrived += (caller, args) =>
+        public void DoStealFocus()
+        {
+            if (BeamgunState.StealFocus)
             {
-                BeamgunState.SetGraphicsLanAlert();
-                var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
-                var alertMessage = $"Alerting on network adapter insertion: " +
-                   $"{obj["AdapterType"]} " +
-                   $"{obj["Caption"]} " +
-                   $"{obj["Description"]} " +
-                   $"{obj["DeviceID"]} " +
-                   $"{obj["GUID"]} " +
-                   $"{obj["MACAddress"]} " +
-                   $"{obj["Manufacturer"]} " +
-                   $"{obj["Name"]} " +
-                   $"{obj["PermanentAddress"]} " +
-                   $"{obj["NetworkAddresses"]} " +
-                   $"{obj["ProductName"]} " +
-                   $"{obj["ServiceName"]} " +
-                   $"{obj["SystemCreationClassName"]} " +
-                   $"{obj["SystemName"]} ";
-                _alarm.Trigger(alertMessage);
-                BeamgunState.AppendToAlert(alertMessage);
-                if (!BeamgunState.DisableNetworkAdapter) return;
-                var query = $"SELECT * FROM Win32_NetworkAdapter WHERE DeviceID = \"{obj["DeviceID"]}\"";
-                var searcher = new ManagementObjectSearcher(query);
-                foreach (var item in searcher.Get())
-                {
-                    var managementObject = (ManagementObject)item;
-                    try
-                    {
-                        var disableCode = (uint)managementObject.InvokeMethod("Disable", null);
-                        BeamgunState.AppendToAlert(disableCode == 0
-                            ? "Network adapter successfully disabled."
-                            : $"Danger! Unable to disable network adapter: {disableCode}");
-                        return;
-                    }
-                    catch (ManagementException e) 
-                    {
-                        BeamgunState.AppendToAlert($"Error disabling new network adapter: {e}");
-                    }
-                }
-            };
-            _networkWatcher.Start();
-            
-            var keyboardQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_Keyboard\"");
-            _keyboardWatcher = new ManagementEventWatcher(keyboardQuery);
-            _keyboardWatcher.EventArrived += (caller, args) =>
-            {
-                BeamgunState.SetGraphicsKeyboardAlert();
-                var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
-                var alertMessage = $"Alerting on keyboard insertion: " +
-                   $"{obj["Name"]} " +
-                   $"{obj["Caption"]} " +
-                   $"{obj["Description"]} " +
-                   $"{obj["DeviceID"]} " +
-                   $"{obj["Layout"]} " +
-                   $"{obj["PNPDeviceID"]}.";
-                _alarm.Trigger(alertMessage);
-                if (!BeamgunState.LockWorkStation) return;
-                BeamgunState.AppendToAlert(workstationLocker.Lock()
-                    ? "Successfully locked the workstation." 
-                    : "Could not lock the workstation.");
-            };
-            _keyboardWatcher.Start();
+                StealFocus();
+            }
         }
 
         public void DisableUntil(DateTime time)
@@ -128,9 +136,12 @@ namespace BeamgunApp.ViewModel
         
         public void Dispose()
         {
-            _keystrokeHooker.Dispose();
-            _networkWatcher.Stop();
-            _keyboardWatcher.Stop();
+            _keystrokeHooker?.Dispose();
+            _updateTimer?.Dispose();
+            _updateTimer?.Dispose();
+            _keyboardWatcher?.Dispose();
+            _networkWatcher?.Dispose();
+            _usbStorageGuard?.Dispose();
         }
 
         public void Reset()
@@ -139,9 +150,12 @@ namespace BeamgunApp.ViewModel
             BeamgunState.Disabler.Enable();
             _alarm.Reset();
         }
-        
+
         private readonly KeystrokeHooker _keystrokeHooker;
         private readonly Alarm _alarm;
-        private readonly ManagementEventWatcher _networkWatcher, _keyboardWatcher;
+        private readonly NetworkWatcher _networkWatcher;
+        private readonly UsbStorageGuard _usbStorageGuard;
+        private readonly VersionCheckerTimer _updateTimer;
+        private readonly KeyboardWatcher _keyboardWatcher;
     }
 }

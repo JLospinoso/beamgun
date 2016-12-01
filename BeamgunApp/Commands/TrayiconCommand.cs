@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Input;
 using BeamgunApp.ViewModel;
 
@@ -7,9 +6,9 @@ namespace BeamgunApp.Commands
 {
     public class TrayIconCommand : ICommand
     {
-        private readonly BeamgunViewModel _viewModel;
+        private readonly IViewModel _viewModel;
 
-        public TrayIconCommand(BeamgunViewModel viewModel)
+        public TrayIconCommand(IViewModel viewModel)
         {
             _viewModel = viewModel;
         }
@@ -21,11 +20,10 @@ namespace BeamgunApp.Commands
 
         public void Execute(object parameter)
         {
-            var isVisible = _viewModel.BeamgunState.MainWindowVisibility == Visibility.Visible;
-            _viewModel.BeamgunState.MainWindowVisibility = isVisible ? Visibility.Hidden : Visibility.Visible;
-            if (_viewModel.BeamgunState.MainWindowVisibility == Visibility.Visible)
+            _viewModel.IsVisible = !_viewModel.IsVisible;
+            if (_viewModel.IsVisible)
             {
-                _viewModel.StealFocus();
+                _viewModel.DoStealFocus();
             }
         }
 

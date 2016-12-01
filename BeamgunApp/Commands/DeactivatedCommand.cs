@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using System.Windows.Input;
 using BeamgunApp.ViewModel;
 
@@ -7,9 +6,9 @@ namespace BeamgunApp.Commands
 {
     public class DeactivatedCommand : ICommand
     {
-        private readonly BeamgunViewModel _viewModel;
+        private readonly IViewModel _viewModel;
 
-        public DeactivatedCommand(BeamgunViewModel viewModel)
+        public DeactivatedCommand(IViewModel viewModel)
         {
             _viewModel = viewModel;
         }
@@ -21,7 +20,7 @@ namespace BeamgunApp.Commands
 
         public void Execute(object parameter)
         {
-            _viewModel.BeamgunState.MainWindowVisibility = Visibility.Hidden;
+            _viewModel.IsVisible = false;
         }
 
         public event EventHandler CanExecuteChanged

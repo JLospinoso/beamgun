@@ -27,7 +27,7 @@
     <Property Id="WixShellExecTarget" Value="[#BeamgunApp]" />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Beamgun" />
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
-    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="no" />
 
     <UI>
         <UIRef Id="WixUI_Minimal" />
@@ -63,6 +63,12 @@
               Source="$(var.BeamgunApp.TargetDir)System.Windows.Interactivity.dll"
               KeyPath="yes"/>
           </Component>
+          <Component Id="CMP_Json" Guid="*">
+            <File Id="Json"
+              Name="Newtonsoft.Json.dll"
+              Source="$(var.BeamgunApp.TargetDir)Newtonsoft.Json.dll"
+              KeyPath="yes"/>
+          </Component>
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
@@ -93,6 +99,7 @@
       <ComponentRef Id="CMP_NotifyIconWpf" />
       <ComponentRef Id="CMP_Interactivity" />
       <ComponentRef Id="CMP_Shortcuts" />
+      <ComponentRef Id="CMP_Json" />
     </Feature>
     <CustomAction Id='CreateBeamgunTask' Return="check" Execute="commit" Directory="TARGETDIR" Impersonate="no"
         ExeCommand="&quot;[SystemFolder]SCHTASKS.EXE&quot; /Create /SC ONLOGON /TN &quot;Beamgun&quot; /TR &quot;&apos;[BEAMGUNDIR]BeamgunApp.exe&apos;&quot; /RU [LogonUser] /F /RL HIGHEST"/>

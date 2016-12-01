@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
 using BeamgunApp.Models;
+using Moq;
 using NUnit.Framework;
 
 namespace BeamgunTest
@@ -13,18 +13,18 @@ namespace BeamgunTest
         [Test]
         public void EnableSetsIconPath()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
 
             disabler.Enable();
 
-            Assert.NotNull(state.TrayIconPath);
+            Mock.Get(state).Verify(x => x.SetGraphicsArmed());
         }
 
         [Test]
         public void IsNotDisabledAfterEnable()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
 
             disabler.Enable();
@@ -35,7 +35,7 @@ namespace BeamgunTest
         [Test]
         public void HasZeroDisabledTimeAfterEnable()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
 
             disabler.Enable();
@@ -46,7 +46,7 @@ namespace BeamgunTest
         [Test]
         public void IsNotDisabledAfterConstruction()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
 
             var disabler = new Disabler(state);
             
@@ -56,7 +56,7 @@ namespace BeamgunTest
         [Test]
         public void HasNonZeroDisabledTimeAfterDisabled()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
 
             disabler.DisableUntil(DateTime.Now.AddMilliseconds(50));
@@ -67,7 +67,7 @@ namespace BeamgunTest
         [Test]
         public void IsDisabledAfterDisabled()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
 
             disabler.DisableUntil(DateTime.Now.AddMilliseconds(50));
@@ -78,7 +78,7 @@ namespace BeamgunTest
         [Test]
         public void WindowNotVisibleAfterDisabled()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
 
             disabler.DisableUntil(DateTime.Now.AddMilliseconds(50));
@@ -89,18 +89,18 @@ namespace BeamgunTest
         [Test]
         public void TrayPathHasIconAfterDisabled()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
 
             disabler.DisableUntil(DateTime.Now.AddMilliseconds(50));
 
-            Assert.IsNotNull(state.TrayIconPath);
+            Mock.Get(state).Verify(x => x.SetGraphicsDisabled());
         }
 
         [Test]
         public void HasZeroDisabledTimeAfterDisabledAndWait()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
             var wait = 10;
 
@@ -113,7 +113,7 @@ namespace BeamgunTest
         [Test]
         public void IsNotDisabledTimeAfterDisabledAndWait()
         {
-            var state = new BeamgunState();
+            var state = Mock.Of<IBeamgunState>();
             var disabler = new Disabler(state);
             var wait = 10;
 
