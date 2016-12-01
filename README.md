@@ -3,7 +3,7 @@
 Installing Beamgun
 ==
 
-Beamgun v0.1.1 is available 
+Beamgun v0.2.0 is available 
 [as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.0.msi) 
 and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.0.zip). 
 We recommend you use the MSI installer so that Beamgun restarts
