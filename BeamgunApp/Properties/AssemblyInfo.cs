@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Beamgun")]
-[assembly: AssemblyDescription("USB Rubberducky and LAN Turtle defeat utility")]
+[assembly: AssemblyDescription("A rogue USB device defeat utility")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Josh Lospinoso")]
 [assembly: AssemblyProduct("Beamgun")]
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.2.0.0")]
-[assembly: AssemblyFileVersion("0.2.0.0")]
+[assembly: AssemblyVersion("0.2.1.0")]
+[assembly: AssemblyFileVersion("0.2.1.0")]

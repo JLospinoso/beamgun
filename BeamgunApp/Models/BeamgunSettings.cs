@@ -17,10 +17,23 @@ namespace BeamgunApp.Models
         string VersionUrl { get; set; }
         Guid BeamgunId { get; }
         bool CheckForUpdates { get; set; }
+        uint DisableNetworkAdapterInterval { get; set; }
     }
 
     public class BeamgunSettings : IBeamgunSettings
     {
+
+        public uint DisableNetworkAdapterInterval
+        {
+            get
+            {
+                return _backing.GetWithDefault(DisableNetworkAdapterIntervalKey, DisableNetworkAdapterIntervalDefault);
+            }
+            set
+            {
+                _backing.Set(DisableNetworkAdapterIntervalKey, value);
+            }
+        }
         public bool CheckForUpdates
         {
             get
@@ -165,5 +178,7 @@ namespace BeamgunApp.Models
         private const string BeamgunIdKey = "BeamgunId";
         private const string CheckForUpdatesKey = "CheckForUpdates";
         private const bool CheckForUpdatesDefault = true;
+        private const uint DisableNetworkAdapterIntervalDefault = 100;
+        private const string DisableNetworkAdapterIntervalKey = "DisableNetworkAdapterInterval";
     }
 }

@@ -55,6 +55,7 @@ namespace BeamgunApp.ViewModel
             _usbStorageGuard = InstallUsbStorageGuard(beamgunSettings);
             _alarm = InstallAlarm(beamgunSettings);
             _networkWatcher = new NetworkWatcher(beamgunSettings,
+                new NetworkAdapterDisabler(),
                 x => BeamgunState.AppendToAlert(x),
                 x =>
                 {
@@ -149,6 +150,7 @@ namespace BeamgunApp.ViewModel
             BeamgunState.AppendToAlert("Resetting alarm.");
             BeamgunState.Disabler.Enable();
             _alarm.Reset();
+            _networkWatcher.Triggered = false;
         }
 
         private readonly KeystrokeHooker _keystrokeHooker;
