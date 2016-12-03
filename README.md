@@ -40,6 +40,12 @@ Version history
 
 _154 downloads (as of 11/30/2016)_
 
+Press
+==
+* [ISC StormCast for Friday, December 2nd 2016](https://isc.sans.edu/podcastdetail.html)
+* [Information Security News, Northwestern University](https://www.youtube.com/watch?v=Jb2dK8j94UI&feature=youtu.be)
+* [Sans Newsbites, Volume XVIII, Issue #95](https://www.sans.org/newsletters/newsbites/xviii/95?utm_medium=Social&utm_source=Twitter&utm_content=SM_NB_xviii_95&utm_campaign=Newbites)
+
 Contribute
 ==
 
