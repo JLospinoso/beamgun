@@ -5,12 +5,9 @@ namespace BeamgunApp.Models
 {
     public class KeyboardWatcher : IDisposable
     {
-        public delegate void Report(string message);
-        public delegate void TripAlarm(string message);
-
         private readonly ManagementEventWatcher _watcher;
 
-        public KeyboardWatcher(IBeamgunSettings settings, WorkstationLocker locker, Report report, TripAlarm alarm)
+        public KeyboardWatcher(IBeamgunSettings settings, WorkstationLocker locker, Action<string> report, Action<string> alarm)
         {
             var keyboardQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_Keyboard\"");
             _watcher = new ManagementEventWatcher(keyboardQuery);

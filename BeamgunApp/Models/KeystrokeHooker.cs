@@ -24,9 +24,8 @@ namespace BeamgunApp.Models
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
-
-        public delegate void Keypress(Keys key);
-        public event Keypress Callback;
+        
+        public event Action<Keys> Callback;
         private const int KeyboardConst = 13;
         private const int KeydownConst = 0x0100;
         private readonly IntPtr _hookId;

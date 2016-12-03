@@ -8,8 +8,6 @@ namespace BeamgunApp.Models
     }
     public class NetworkAdapterDisabler
     {
-        public delegate void Report(string message);
-
         public bool Disable(string deviceId)
         {
             var query = $"SELECT * FROM Win32_NetworkAdapter WHERE DeviceID = \"{deviceId}\"";

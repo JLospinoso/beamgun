@@ -6,10 +6,9 @@ namespace BeamgunApp.Models
 {
     public class VersionCheckerTimer : IDisposable
     {
-        public delegate void Report(string message);
         private readonly Timer _timer;
 
-        public VersionCheckerTimer(IBeamgunSettings beamgunSettings, VersionChecker checker, Report report)
+        public VersionCheckerTimer(IBeamgunSettings beamgunSettings, VersionChecker checker, Action<string> report)
         {
             _timer = new Timer(state =>
             {

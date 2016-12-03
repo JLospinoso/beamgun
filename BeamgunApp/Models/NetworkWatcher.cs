@@ -7,12 +7,10 @@ namespace BeamgunApp.Models
     public class NetworkWatcher : IDisposable
     {
         public bool Triggered { get; set; }
-        public delegate void Report(string message);
-        public delegate void TripAlarm(string message);
         private readonly ManagementEventWatcher _watcher;
         
         public NetworkWatcher(IBeamgunSettings settings, NetworkAdapterDisabler networkAdapterDisabler, 
-            Report report, TripAlarm alarm)
+            Action<string> report, Action<string> alarm)
         {
             var networkQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_NetworkAdapter\"");
             _watcher = new ManagementEventWatcher(networkQuery);
