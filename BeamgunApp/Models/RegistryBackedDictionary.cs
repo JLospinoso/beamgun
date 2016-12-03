@@ -13,24 +13,33 @@ namespace BeamgunApp.Models
 
     public class RegistryBackedDictionary : IDynamicDictionary
     {
+        public Action<string> BadCastReport;
         public const string BeamgunBaseKey = "HKEY_CURRENT_USER\\SOFTWARE\\Beamgun";
-
+        
         public T GetWithDefault<T>(string key, T defaultValue)
         {
-            return (T)Registry.GetValue(BeamgunBaseKey, key, defaultValue);
+            try
+            {
+                return (T) Registry.GetValue(BeamgunBaseKey, key, defaultValue);
+            }
+            catch (InvalidCastException)
+            {
+                BadCastReport($"Could not parse {BeamgunBaseKey} {key}. Using default {defaultValue}.");
+                return defaultValue;
+            }
         }
 
         public Guid GetWithDefault(string key, Guid defaultValue)
         {
             Guid result;
-            return Guid.TryParse((string) Registry.GetValue(BeamgunBaseKey, key, defaultValue), out result)
+            return Guid.TryParse(Registry.GetValue(BeamgunBaseKey, key, defaultValue).ToString(), out result)
                 ? result
                 : defaultValue;
         }
 
         public bool GetWithDefault(string key, bool defaultValue)
         {
-            return (string)Registry.GetValue(BeamgunBaseKey, key, defaultValue ? "True" : "False") == "True";
+            return Registry.GetValue(BeamgunBaseKey, key, defaultValue ? "True" : "False").ToString() == "True";
         }
 
         public void Set<T>(string key, T value)

@@ -38,12 +38,14 @@ namespace BeamgunApp.ViewModel
 
         public BeamgunViewModel()
         {
-            var beamgunSettings = new BeamgunSettings(new RegistryBackedDictionary());
+            var dictionary = new RegistryBackedDictionary();
+            var beamgunSettings = new BeamgunSettings(dictionary);
             BeamgunState = new BeamgunState(beamgunSettings)
             {
                 MainWindowVisibility = Visibility.Hidden
             };
             // TODO: This bi-directional relationship feels bad.
+            dictionary.BadCastReport += BeamgunState.AppendToAlert;
             BeamgunState.Disabler = new Disabler(BeamgunState);
             BeamgunState.Disabler.Enable(); 
             DisableCommand = new DisableCommand(this, beamgunSettings);
