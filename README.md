@@ -32,6 +32,10 @@ Check out these two blog posts for more information:
 
 Beamgun's homepage is [beamgun.io](http://beamgun.io/).
 
+Notes
+==
+Beamgun will run with low-user and elevated privileges (i.e. as administrator), but it will ask for the highest privileges that the logged in user has. When running without administrator privileges, you will be unable to (a) disable network adapters, and (b) disable USB mass storage. This is a feature of Windows security, not a design choice! Thanks to @AlexIljin [for pointing this out](https://github.com/JLospinoso/beamgun/issues/7).
+
 Version history
 ==
 * [BeamgunInstaller-0.2.2.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.2.msi) | [BeamgunApp-0.2.2.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.2.zip): Fixes to registry access; graceful handling of cast exceptions.

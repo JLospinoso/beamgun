@@ -103,7 +103,7 @@
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageDisabled}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
-                    <Label>Disable USB Storage</Label>
+                    <Label>Disable USB storage</Label>
                 </StackPanel>
             </StackPanel>
             <TextBox Grid.Row="3" 
