@@ -30,7 +30,7 @@ Check out these two blog posts for more information:
 
 * [Update](https://jlospinoso.github.io/infosec/usb%20rubber%20ducky/lan%20turtle/c%23/clr/wpf/.net/security/2016/11/30/beamgun-update-poison-tap.html)
 
-Beamgun's homepage is [beamgun.io](http://beamgun.io/).
+Beamgun's homepage is [beamgun.io](https://beamgun.io/).
 
 Notes
 ==
