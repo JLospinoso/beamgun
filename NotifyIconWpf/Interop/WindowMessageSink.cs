@@ -276,6 +276,10 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
                     //double click with middle mouse button - do not trigger event
                     break;
 
+                case 0x400:
+                    // I don't know what this is, but it happens on startup.
+                    break;
+
                 case 0x402:
                     var listener = BalloonToolTipChanged;
                     if (listener != null) listener(true);
