@@ -37,7 +37,7 @@ namespace BeamgunApp.Models
                 _beamgunState.AppendToAlert($"Beamgun is disabled until {dateTime}");
                 Thread.Sleep(dateTime - DateTime.Now);
                 Enable();
-                _beamgunState.AppendToAlert($"Beamgun is enabled.");
+                _beamgunState.AppendToAlert("Beamgun is enabled.");
             });
             monitor.Start();
         }

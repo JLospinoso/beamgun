@@ -17,16 +17,15 @@ namespace BeamgunApp.Models
                     checker.Update(beamgunSettings);
                     var availableVersion = beamgunSettings.LatestVersion;
                     var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-                    report(
-                        availableVersion > currentVersion
+                    report(availableVersion > currentVersion
                             ? $"Version {availableVersion} is available at {beamgunSettings.DownloadUrl}"
-                            : $"Beamgun is up to date.");
+                            : "Beamgun is up to date.");
                 }
                 catch (Exception e)
                 {
                     report($"Unable to connect to update server. {e.Message}");
                 }
-            }, null, 0, beamgunSettings.UpdatePollInterval);
+            }, null, 1000, beamgunSettings.UpdatePollInterval);
         }
 
         public void Dispose()

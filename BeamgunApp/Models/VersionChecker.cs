@@ -15,7 +15,8 @@ namespace BeamgunApp.Models
             using (var client = new WebClient())
             {
                 var url = settings.VersionUrl + "?id=" + settings.BeamgunId + "&ver=" + Assembly.GetExecutingAssembly().GetName().Version;
-                using (var data = client.OpenRead(Uri.EscapeUriString(url)))
+                var uri = Uri.EscapeUriString(url);
+                using (var data = client.OpenRead(uri))
                 {
                     if (data == null)
                     {

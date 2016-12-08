@@ -29,7 +29,7 @@ namespace BeamgunApp.Models
         private const int KeyboardConst = 13;
         private const int KeydownConst = 0x0100;
         private readonly IntPtr _hookId;
-        private static int _hookSet = 0;
+        private static int _hookSet;
 
         public KeystrokeHooker()
         {
@@ -65,7 +65,7 @@ namespace BeamgunApp.Models
         
         public void Dispose()
         {
-            GC.KeepAlive(KeyboardHook);
+            //TODO: This seems extraneous, investigate further: GC.KeepAlive(KeyboardHook);
             UnhookWindowsHookEx(_hookId);
             Interlocked.Exchange(ref _hookSet, 0);
         }

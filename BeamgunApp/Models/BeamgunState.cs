@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using BeamgunApp.Annotations;
+using BeamgunApp.Properties;
 
 namespace BeamgunApp.Models
 {
@@ -33,7 +33,7 @@ namespace BeamgunApp.Models
         {
             get
             {
-                return _alertLog;;
+                return _alertLog;
             }
             set
             {

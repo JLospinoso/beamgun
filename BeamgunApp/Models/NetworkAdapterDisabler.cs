@@ -11,18 +11,20 @@ namespace BeamgunApp.Models
         public bool Disable(string deviceId)
         {
             var query = $"SELECT * FROM Win32_NetworkAdapter WHERE DeviceID = \"{deviceId}\"";
-            var searcher = new ManagementObjectSearcher(query);
-            foreach (var item in searcher.Get())
+            using (var searcher = new ManagementObjectSearcher(query))
             {
-                var managementObject = (ManagementObject)item;
-                try
+                foreach (var item in searcher.Get())
                 {
-                    var disableCode = (uint)managementObject.InvokeMethod("Disable", null);
-                    return true;
-                }
-                catch (ManagementException e)
-                {
-                    throw new NetworkAdapterDisablerException("Error disabling new network adapter.", e);
+                    var managementObject = (ManagementObject)item;
+                    try
+                    {
+                        managementObject.InvokeMethod("Disable", null);
+                        return true;
+                    }
+                    catch (ManagementException e)
+                    {
+                        throw new NetworkAdapterDisablerException("Error disabling new network adapter.", e);
+                    }
                 }
             }
             return false;

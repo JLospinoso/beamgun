@@ -16,27 +16,29 @@ namespace BeamgunApp.Models
             _watcher = new ManagementEventWatcher(networkQuery);
             _watcher.EventArrived += (caller, args) =>
             {
-                var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
-                var alertMessage = $"Alerting on network adapter insertion: {obj["Description"]} (Device ID {obj["DeviceID"]}) ";
-                alarm(alertMessage);
-                Triggered = settings.DisableNetworkAdapter;
-                if (Triggered)
+                using (var obj = (ManagementBaseObject) args.NewEvent["TargetInstance"])
                 {
-                    report($"Disabling {obj["Description"]} every {settings.DisableNetworkAdapterInterval} ms until Reset.");
-                }
-                while (Triggered)
-                {
-                    try
+                    var alertMessage = $"Alerting on network adapter insertion: {obj["Description"]} (Device ID {obj["DeviceID"]}) ";
+                    alarm(alertMessage);
+                    Triggered = settings.DisableNetworkAdapter;
+                    if (Triggered)
                     {
-                        if (!networkAdapterDisabler.Disable(obj["DeviceID"].ToString()))
-                        {
-                            report($"DANGER: Unable to disable {obj["AdapterType"]}!");
-                        }
-                        Thread.Sleep((int) settings.DisableNetworkAdapterInterval);
+                        report($"Disabling {obj["Description"]} every {settings.DisableNetworkAdapterInterval} ms until Reset.");
                     }
-                    catch (NetworkAdapterDisablerException e)
+                    while (Triggered)
                     {
-                        report(e.Message);
+                        try
+                        {
+                            if (!networkAdapterDisabler.Disable(obj["DeviceID"].ToString()))
+                            {
+                                report($"DANGER: Unable to disable {obj["AdapterType"]}!");
+                            }
+                            Thread.Sleep((int)settings.DisableNetworkAdapterInterval);
+                        }
+                        catch (NetworkAdapterDisablerException e)
+                        {
+                            report(e.Message);
+                        }
                     }
                 }
             };

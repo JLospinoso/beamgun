@@ -13,19 +13,20 @@ namespace BeamgunApp.Models
             _watcher = new ManagementEventWatcher(keyboardQuery);
             _watcher.EventArrived += (caller, args) =>
             {
-                var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
-                alarm($"Alerting on keyboard insertion: " +
-                                   $"{obj["Name"]} " +
-                                   $"{obj["Caption"]} " +
-                                   $"{obj["Description"]} " +
-                                   $"{obj["DeviceID"]} " +
-                                   $"{obj["Layout"]} " +
-                                   $"{obj["PNPDeviceID"]}.");
-                if (!settings.LockWorkstation) return;
-                report(locker.Lock()
-                    ? "Successfully locked the workstation."
-                    : "Could not lock the workstation.");
-                
+                using (var obj = (ManagementBaseObject) args.NewEvent["TargetInstance"])
+                {
+                   alarm("Alerting on keyboard insertion: " +
+                   $"{obj["Name"]} " +
+                   $"{obj["Caption"]} " +
+                   $"{obj["Description"]} " +
+                   $"{obj["DeviceID"]} " +
+                   $"{obj["Layout"]} " +
+                   $"{obj["PNPDeviceID"]}.");
+                    if (!settings.LockWorkstation) return;
+                    report(locker.Lock()
+                        ? "Successfully locked the workstation."
+                        : "Could not lock the workstation.");
+                }
             };
             _watcher.Start();
         }

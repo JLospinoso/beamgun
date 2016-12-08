@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,7 +7,7 @@ namespace BeamgunApp.Controls
 {
     public class TextBoxBehavior
     {
-        static readonly Dictionary<TextBox, Capture> _associations = new Dictionary<TextBox, Capture>();
+        private static readonly ConcurrentDictionary<TextBox, Capture> Associations = new ConcurrentDictionary<TextBox, Capture>();
 
         public static bool GetScrollOnTextChanged(DependencyObject dependencyObject)
         {
@@ -22,7 +22,7 @@ namespace BeamgunApp.Controls
         public static readonly DependencyProperty ScrollOnTextChangedProperty =
             DependencyProperty.RegisterAttached("ScrollOnTextChanged", typeof(bool), typeof(TextBoxBehavior), new UIPropertyMetadata(false, OnScrollOnTextChanged));
 
-        static void OnScrollOnTextChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void OnScrollOnTextChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
             var textBox = dependencyObject as TextBox;
             if (textBox == null)
@@ -43,30 +43,30 @@ namespace BeamgunApp.Controls
             {
                 textBox.Loaded -= TextBoxLoaded;
                 textBox.Unloaded -= TextBoxUnloaded;
-                if (_associations.ContainsKey(textBox))
+                if (Associations.ContainsKey(textBox))
                 {
-                    _associations[textBox].Dispose();
+                    Associations[textBox].Dispose();
                 }
             }
         }
 
-        static void TextBoxUnloaded(object sender, RoutedEventArgs routedEventArgs)
+        private static void TextBoxUnloaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var textBox = (TextBox)sender;
-            _associations[textBox].Dispose();
+            Associations[textBox].Dispose();
             textBox.Unloaded -= TextBoxUnloaded;
         }
 
-        static void TextBoxLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private static void TextBoxLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var textBox = (TextBox)sender;
             textBox.Loaded -= TextBoxLoaded;
-            _associations[textBox] = new Capture(textBox);
+            Associations[textBox] = new Capture(textBox);
         }
 
-        class Capture : IDisposable
+        private class Capture : IDisposable
         {
-            private TextBox TextBox { get; set; }
+            private TextBox TextBox { get; }
 
             public Capture(TextBox textBox)
             {

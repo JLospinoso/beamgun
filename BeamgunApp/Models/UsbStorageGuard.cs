@@ -21,12 +21,7 @@ namespace BeamgunApp.Models
         {
             _settings = settings;
         }
-
-        public void Dispose()
-        {
-            //NOP
-        }
-
+        
         private readonly IBeamgunSettings _settings;
         private const string UsbMassStorageKey = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\usbstor";
         private const string UsbMassStorageSubkey = "Start";

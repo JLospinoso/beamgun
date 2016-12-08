@@ -3,13 +3,12 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Input;
 using BeamgunApp.ViewModel;
 using MessageBox = System.Windows.MessageBox;
 
 namespace BeamgunApp
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private Mutex _appMutex;
         public MainWindow()

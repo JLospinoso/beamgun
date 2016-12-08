@@ -54,7 +54,8 @@ namespace BeamgunApp.ViewModel
             ResetCommand = new ResetCommand(this);
             ExitCommand = new ExitCommand(this);
             _keystrokeHooker = InstallKeystrokeHooker();
-            _usbStorageGuard = InstallUsbStorageGuard(beamgunSettings);
+            //TODO: Does this get gc'd if we don't hold a ref?
+            InstallUsbStorageGuard(beamgunSettings);
             _alarm = InstallAlarm(beamgunSettings);
             _networkWatcher = new NetworkWatcher(beamgunSettings,
                 new NetworkAdapterDisabler(),
@@ -89,7 +90,7 @@ namespace BeamgunApp.ViewModel
             return alarm;
         }
 
-        private UsbStorageGuard InstallUsbStorageGuard(IBeamgunSettings beamgunSettings)
+        private void InstallUsbStorageGuard(IBeamgunSettings beamgunSettings)
         {
             var usbGuard = new UsbStorageGuard(beamgunSettings);
             BeamgunState.UsbMassStorageDisabled = usbGuard.UsbStorageDisabled;
@@ -109,7 +110,6 @@ namespace BeamgunApp.ViewModel
                     BeamgunState.AppendToAlert($"Privileges exception: {e.Message}");
                 }
             };
-            return usbGuard;
         }
 
         private KeystrokeHooker InstallKeystrokeHooker()
@@ -144,7 +144,6 @@ namespace BeamgunApp.ViewModel
             _updateTimer?.Dispose();
             _keyboardWatcher?.Dispose();
             _networkWatcher?.Dispose();
-            _usbStorageGuard?.Dispose();
         }
 
         public void Reset()
@@ -158,7 +157,6 @@ namespace BeamgunApp.ViewModel
         private readonly KeystrokeHooker _keystrokeHooker;
         private readonly Alarm _alarm;
         private readonly NetworkWatcher _networkWatcher;
-        private readonly UsbStorageGuard _usbStorageGuard;
         private readonly VersionCheckerTimer _updateTimer;
         private readonly KeyboardWatcher _keyboardWatcher;
     }
