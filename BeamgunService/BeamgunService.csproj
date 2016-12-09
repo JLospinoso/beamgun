@@ -49,14 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\BeamgunSettings.cs" />
-    <Compile Include="Model\KeyboardWatcher.cs" />
+    <Compile Include="Model\DeviceDisabler.cs" />
     <Compile Include="Model\NetworkAdapterDisabler.cs" />
-    <Compile Include="Model\NetworkWatcher.cs" />
+    <Compile Include="Model\InstanceCreationWatcher.cs" />
     <Compile Include="Model\RegistryBackedDictionary.cs" />
+    <Compile Include="Model\Sample.cs" />
+    <Compile Include="Model\UnmanagedDeviceDisabler.cs" />
     <Compile Include="Model\UsbStorageGuard.cs" />
     <Compile Include="Model\VersionChecker.cs" />
     <Compile Include="Model\VersionCheckerTimer.cs" />
-    <Compile Include="Model\WorkstationLocker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

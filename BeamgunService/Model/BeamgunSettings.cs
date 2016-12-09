@@ -171,7 +171,7 @@ namespace BeamgunService.Model
         private const bool StealFocusEnabledDefault = true;
         private const string LockWorkstationSubkey = "LockWorkStation";
         private const bool LockWorkstationDefault = true;
-        private const string DisableNetworkAdapterSubkey = "DisableNetworkAdapter";
+        private const string DisableNetworkAdapterSubkey = "DisableNoArgs";
         private const bool DisableNetworkAdapterDefault = true;
         private const string StealFocusIntervalKey = "StealFocusInterval";
         private const uint StealFocusIntervalDefault = 10;
