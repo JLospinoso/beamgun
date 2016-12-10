@@ -7,12 +7,13 @@ namespace BeamgunApp.Models
     {
         private readonly ManagementEventWatcher _watcher;
 
-        public KeyboardWatcher(IBeamgunSettings settings, WorkstationLocker locker, Action<string> report, Action<string> alarm)
+        public KeyboardWatcher(IBeamgunSettings settings, WorkstationLocker locker, Action<string> report, Action<string> alarm, Func<bool> disabled)
         {
             var keyboardQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_Keyboard\"");
             _watcher = new ManagementEventWatcher(keyboardQuery);
             _watcher.EventArrived += (caller, args) =>
             {
+                if (disabled()) return;
                 var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
                 alarm($"Alerting on keyboard insertion: " +
                                    $"{obj["Name"]} " +

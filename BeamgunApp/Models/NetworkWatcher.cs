@@ -9,8 +9,7 @@ namespace BeamgunApp.Models
         public bool Triggered { get; set; }
         private readonly ManagementEventWatcher _watcher;
         
-        public NetworkWatcher(IBeamgunSettings settings, NetworkAdapterDisabler networkAdapterDisabler, 
-            Action<string> report, Action<string> alarm)
+        public NetworkWatcher(IBeamgunSettings settings, NetworkAdapterDisabler networkAdapterDisabler, Action<string> report, Action<string> alarm, Func<bool> disabled)
         {
             var networkQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_NetworkAdapter\"");
             _watcher = new ManagementEventWatcher(networkQuery);
@@ -18,6 +17,7 @@ namespace BeamgunApp.Models
             {
                 var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
                 var alertMessage = $"Alerting on network adapter insertion: {obj["Description"]} (Device ID {obj["DeviceID"]}) ";
+                if (disabled()) return;
                 alarm(alertMessage);
                 Triggered = settings.DisableNetworkAdapter;
                 if (Triggered)

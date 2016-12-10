@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -11,31 +12,24 @@ namespace BeamgunApp.Models
         public void Update(IBeamgunSettings settings)
         {
             if (!settings.CheckForUpdates) return;
-            JObject versionJson;
             using (var client = new WebClient())
             {
                 var url = settings.VersionUrl + "?id=" + settings.BeamgunId + "&ver=" + Assembly.GetExecutingAssembly().GetName().Version;
-                using (var data = client.OpenRead(Uri.EscapeUriString(url)))
+                var requestTask = client.DownloadStringTaskAsync(url);
+                requestTask.ContinueWith(x =>
                 {
-                    if (data == null)
+                    try
                     {
-                        throw new Exception("Could not connect to update server.");
+                        var versionJson = JObject.Parse(x.Result);
+                        settings.LatestVersion = new Version(versionJson["latest_version"].ToString());
+                        settings.DownloadUrl = versionJson["download_url"].ToString();
+                        settings.VersionUrl = versionJson["update_version_url"].ToString();
                     }
-                    using (var reader = new StreamReader(data))
+                    catch (Exception e)
                     {
-                        versionJson = JObject.Parse(reader.ReadToEnd());
+                        Debug.WriteLine($"Unable to retrieve version information: {e.Message}");
                     }
-                }
-            }
-            try
-            {
-                settings.LatestVersion = new Version(versionJson["latest_version"].ToString());
-                settings.DownloadUrl = versionJson["download_url"].ToString();
-                settings.VersionUrl = versionJson["update_version_url"].ToString();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Could not parse update results from server.", e);
+                });
             }
         }
     }

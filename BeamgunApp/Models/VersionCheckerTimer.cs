@@ -10,23 +10,26 @@ namespace BeamgunApp.Models
 
         public VersionCheckerTimer(IBeamgunSettings beamgunSettings, VersionChecker checker, Action<string> report)
         {
+            var autoEvent = new AutoResetEvent(false);
             _timer = new Timer(state =>
             {
-                try
+                lock (_timer)
                 {
-                    checker.Update(beamgunSettings);
-                    var availableVersion = beamgunSettings.LatestVersion;
-                    var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-                    report(
-                        availableVersion > currentVersion
-                            ? $"Version {availableVersion} is available at {beamgunSettings.DownloadUrl}"
-                            : $"Beamgun is up to date.");
+                    try
+                    {
+                        checker.Update(beamgunSettings);
+                        var availableVersion = beamgunSettings.LatestVersion;
+                        var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+                        report(availableVersion > currentVersion
+                                ? $"Version {availableVersion} is available at {beamgunSettings.DownloadUrl}"
+                                : $"Beamgun is up to date.");
+                    }
+                    catch (Exception e)
+                    {
+                        report($"Unable to connect to update server. {e.Message}");
+                    }
                 }
-                catch (Exception e)
-                {
-                    report($"Unable to connect to update server. {e.Message}");
-                }
-            }, null, 0, beamgunSettings.UpdatePollInterval);
+            }, autoEvent, 0, beamgunSettings.UpdatePollInterval);
         }
 
         public void Dispose()

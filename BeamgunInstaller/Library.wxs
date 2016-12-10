@@ -13,7 +13,7 @@
   <Product Id="*"
            Name="Beamgun"
            Language="1033"
-           Version="0.2.2.0"
+           Version="0.2.3.0"
            Manufacturer="Josh Lospinoso"
            UpgradeCode="662c6713-7850-4572-a794-b1c596d81908">
     <Package Compressed="yes"

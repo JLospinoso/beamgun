@@ -13,6 +13,7 @@ namespace BeamgunApp.ViewModel
         void DoStealFocus();
         void Reset();
         void DisableUntil(DateTime minutes);
+        void ClearAlerts();
     }
 
     public class BeamgunViewModel : IDisposable, IViewModel
@@ -23,7 +24,9 @@ namespace BeamgunApp.ViewModel
         public ICommand LoseFocusCommand { get; }
         public ICommand ResetCommand { get; }
         public ICommand ExitCommand { get; }
+        public ICommand ClearAlertsCommand { get; }
         public Action StealFocus { get; set; }
+
         public bool IsVisible
         {
             get
@@ -53,6 +56,7 @@ namespace BeamgunApp.ViewModel
             LoseFocusCommand = new DeactivatedCommand(this);
             ResetCommand = new ResetCommand(this);
             ExitCommand = new ExitCommand(this);
+            ClearAlertsCommand = new ClearAlertsCommand(this);
             _keystrokeHooker = InstallKeystrokeHooker();
             _usbStorageGuard = InstallUsbStorageGuard(beamgunSettings);
             _alarm = InstallAlarm(beamgunSettings);
@@ -63,7 +67,8 @@ namespace BeamgunApp.ViewModel
                 {
                     _alarm.Trigger(x);
                     BeamgunState.SetGraphicsLanAlert();
-                });
+                },
+                () => BeamgunState.Disabler.IsDisabled);
             _keyboardWatcher = new KeyboardWatcher(beamgunSettings, 
                 new WorkstationLocker(), 
                 x => BeamgunState.AppendToAlert(x),
@@ -71,9 +76,11 @@ namespace BeamgunApp.ViewModel
                 {
                     _alarm.Trigger(x);
                     BeamgunState.SetGraphicsKeyboardAlert();
-                });
-            _updateTimer = new VersionCheckerTimer(beamgunSettings, 
-                new VersionChecker(), 
+                },
+                () => BeamgunState.Disabler.IsDisabled);
+            var checker = new VersionChecker();
+            _updateTimer = new VersionCheckerTimer(beamgunSettings,
+                checker, 
                 x => BeamgunState.AppendToAlert(x) );
         }
         
@@ -123,20 +130,21 @@ namespace BeamgunApp.ViewModel
             };
             return keystrokeHooker;
         }
-
         public void DoStealFocus()
         {
-            if (BeamgunState.StealFocus)
-            {
-                StealFocus();
-            }
+            StealFocus();
         }
-
         public void DisableUntil(DateTime time)
         {
             BeamgunState.Disabler.DisableUntil(time);
         }
-        
+
+        public void ClearAlerts()
+        {
+            BeamgunState.AlertLog = "";
+            BeamgunState.AppendToAlert("Log cleared.");
+        }
+
         public void Dispose()
         {
             _keystrokeHooker?.Dispose();

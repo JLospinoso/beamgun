@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Input;
 using BeamgunApp.ViewModel;
+using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 
 namespace BeamgunApp
@@ -28,7 +28,7 @@ namespace BeamgunApp
             {
                 MessageBox.Show(this, "Beamgun is already running.", "Beamgun", 
                     MessageBoxButton.OK, MessageBoxImage.Information);
-                System.Windows.Application.Current.Shutdown();
+                Application.Current.Shutdown();
             }
         }
 

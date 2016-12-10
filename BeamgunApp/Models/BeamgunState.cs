@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using BeamgunApp.Annotations;
@@ -59,15 +60,6 @@ namespace BeamgunApp.Models
                 OnPropertyChanged(nameof(MainWindowVisibility));
             }
         }
-        public bool StealFocus
-        {
-            get { return _settings.StealFocusEnabled; }
-            set
-            {
-                _settings.StealFocusEnabled = value;
-                OnPropertyChanged(nameof(StealFocus));
-            }
-        }
         public bool LockWorkStation
         {
             get { return _settings.LockWorkstation; }
@@ -105,6 +97,16 @@ namespace BeamgunApp.Models
             {
                 _bannerPath = value;
                 OnPropertyChanged(nameof(BannerPath));
+            }
+        }
+
+        public string VersionInfo
+        {
+            get { return _versionInfo; }
+            set
+            {
+                _versionInfo = value;
+                OnPropertyChanged(nameof(VersionInfo));
             }
         }
 
@@ -168,6 +170,7 @@ namespace BeamgunApp.Models
         private string _alertLog = "";
         private string _trayIconPath;
         private string _bannerPath;
+        private string _versionInfo = $"Beamgun v{Assembly.GetExecutingAssembly().GetName().Version}. Copyright © 2016 Josh Lospinoso";
         private WindowState _mainWindowState;
         private Visibility _mainWindowVisibility;
         private bool _usbMassStorageDisabled;

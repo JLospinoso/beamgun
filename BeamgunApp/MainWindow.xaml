@@ -68,6 +68,19 @@
                             HorizontalAlignment="Center">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding Path=ClearAlertsCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TextBlock Name="ClearTextboxClickBox">Clear alerts</TextBlock>
+                    </Border>
+                    <Border BorderThickness="1" 
+                            Padding="2"
+                            CornerRadius="3"
+                            BorderBrush="DarkSlateGray"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
                                 <i:InvokeCommandAction Command="{Binding Path=ResetCommand}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
@@ -89,13 +102,10 @@
                 </StackPanel>
             </Grid>
             <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding Path=BeamgunState.StealFocus}" VerticalAlignment="Center" />
-                    <Label>Steal focus</Label>
-                </StackPanel>
+                <StackPanel Orientation="Horizontal"/>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Path=BeamgunState.LockWorkStation}" VerticalAlignment="Center"/>
-                    <Label>Lock workstation</Label>
+                    <Label Content="Lock on keyboard"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Path=BeamgunState.DisableNetworkAdapter}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
@@ -111,7 +121,7 @@
                      AcceptsReturn="True" VerticalScrollBarVisibility="Visible" 
                      TextWrapping="Wrap" IsReadOnly="True"
                      Text="{Binding BeamgunState.AlertLog}"/>
-            <Label Grid.Row="4" Grid.Column="0" FontSize="10" HorizontalAlignment="Center">Copyright © 2016 Josh Lospinoso</Label>
+            <Label Grid.Row="4" Grid.Column="0" FontSize="10" HorizontalAlignment="Center" Content="{Binding BeamgunState.VersionInfo}"></Label>
             <tb:TaskbarIcon Name="Taskbar" Grid.Row="5" ToolTipText="Beamgun" IconSource="{Binding BeamgunState.TrayIconPath}" LeftClickCommand="{Binding TrayIconCommand}"/>
         </Grid>
     </Border>
