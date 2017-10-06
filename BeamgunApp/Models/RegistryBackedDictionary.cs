@@ -33,24 +33,21 @@ namespace BeamgunApp.Models
 
         public double GetWithDefault(string key, double defaultValue)
         {
-            double result;
-            return double.TryParse(Registry.GetValue(BeamgunBaseKey, key, defaultValue).ToString(), out result)
+            return double.TryParse(Registry.GetValue(BeamgunBaseKey, key, defaultValue)?.ToString(), out var result)
                 ? result
                 : defaultValue;
         }
         
         public uint GetWithDefault(string key, uint defaultValue)
         {
-            uint result;
-            return uint.TryParse(Registry.GetValue(BeamgunBaseKey, key, defaultValue).ToString(), out result)
+            return uint.TryParse(Registry.GetValue(BeamgunBaseKey, key, defaultValue)?.ToString(), out var result)
                 ? result
                 : defaultValue;
         }
 
         public Guid GetWithDefault(string key, Guid defaultValue)
         {
-            Guid result;
-            return Guid.TryParse(Registry.GetValue(BeamgunBaseKey, key, defaultValue).ToString(), out result)
+            return Guid.TryParse(Registry.GetValue(BeamgunBaseKey, key, defaultValue)?.ToString(), out var result)
                 ? result
                 : defaultValue;
         }
