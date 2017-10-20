@@ -3,9 +3,9 @@
 Installing Beamgun
 ==
 
-Beamgun v0.2.3 is available 
-[as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.3.msi) 
-and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.3.zip). 
+Beamgun v0.2.3 is available
+[as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.3.msi)
+and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.3.zip).
 We recommend you use the MSI installer so that Beamgun restarts
 on reboot.
 
@@ -30,7 +30,7 @@ Check out these two blog posts for more information:
 
 * [Update](https://jlospinoso.github.io/infosec/usb%20rubber%20ducky/lan%20turtle/c%23/clr/wpf/.net/security/2016/11/30/beamgun-update-poison-tap.html)
 
-Beamgun's homepage is [beamgun.io](https://beamgun.io/).
+Beamgun's homepage is [jlospinoso.github.io/beamgun/](https://jlospinoso.github.io/beamgun//).
 
 Notes
 ==
