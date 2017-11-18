@@ -8,107 +8,214 @@
     <meta name="author" content="">
     <title>beamgun.io</title>
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto:500" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" integrity="sha384-AysaV+vQoT3kOAXZkl02PThvDr8HYKPZhNT5h/CXfBThSRXQ6jW5DO2ekP5ViFdi" crossorigin="anonymous">
     <link href="css/main.css" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js" integrity="sha384-XTs3FgkjiBgo8qjEjBk0tGmf3wPrWtA6coPfQDfFEY8AnYJwjalXCiosYRBIBZX8" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js" integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK" crossorigin="anonymous"></script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-88644734-1', 'auto');
+        ga('send', 'pageview');
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-7354863263385271",
+                enable_page_level_ads: true
+            });
+        } else {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        }
+    </script>
+    <link rel='shortcut icon' href='favicon.ico' type='image/x-icon' />
 </head>
 
 <body>
-    <div class="jumbotron jumbotron-fluid header">
+    <div class="jumbotron jumbotron-fluid">
         <img src="images/jumbotron.svg"/>
     </div>
+    <br>
     <div class="row">
-        <div class="col-md-4"></div>
-        <a class="col-md-4" href="https://github.com/jlospinoso/beamgun">
-            <img src="images/Download.svg"/>
-        </a>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <h3 class="col-md-10">Beamgun is a tiny Windows program that stops rogue USB devices like:</h3>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <a class="col-md-4 clearfix" href="http://usbrubberducky.com">
-                <img src="images/Duck.svg" alt="USB Rubber Ducky">
-                <div class="caption">
-                    <h3>Rubber Duckies</h3>
-                    <p>Malicious keyboard devices that deliver arbitrary payloads on target.</p>
-                </div>
-            </a>
-            <a class="col-md-4 clearfix" href="https://lanturtle.com/">
-                <img src="images/Turtle.svg" alt="LAN Turtle">
-                <div class="caption">
-                    <h3>LAN Turtles</h3>
-                    <p>Network adapters that can hijack connections and steal credentials.</p>
-                </div>
-            </a>
-            <a class="col-md-4 clearfix" href="https://lanturtle.com/">
-                <img src="images/DogDuck.svg" alt="Mass Storage Device">
-                <div class="caption">
-                    <h3>Mass Storage</h3>
-                    <p>Exfiltrate large volumes of data quickly and locally from a target.</p>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-3"></div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <h3 class="col-md-10">Beamgun runs in the background, quietly listening for USB devices.</h3>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-3"></div>
-        <img src="images/Screenshot.PNG" class="col-md-6"></img>
-        <div class="col-md-3"></div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <h3 class="col-md-10">Beamgun is open source (AGPLv3) and totally free (as in beer).</h3>
-    </div>
-    <hr>
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-            <li data-target="#myCarousel" data-slide-to="3"></li>
-        </ol>
-
-        <div class="carousel-inner" role="listbox">
-            <div class="item active">
-                <img src="img_chania.jpg" alt="Chania">
-            </div>
-
-            <div class="item">
-                <img src="img_chania2.jpg" alt="Chania">
-            </div>
-
-            <div class="item">
-                <img src="img_flower.jpg" alt="Flower">
-            </div>
-
-            <div class="item">
-                <img src="img_flower2.jpg" alt="Flower">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+            <div class="card text-xs-center no-border">
+                <img class="card-img-top" src="images/Download.svg" alt="Download"/>
+                <a href="https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.1.msi" class="btn btn-primary">Download v0.2.1</a>
             </div>
         </div>
-        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
+        <div class="col-sm-3">
+            <div class="card text-xs-center no-border">
+                <img class="card-img-top" src="images/github.svg" alt="Github"/>
+                <a href="https://github.com/JLospinoso/beamgun" class="btn btn-primary" target="_blank">View source</a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="jumbotron text-center">
+        <h4>Beamgun is open-sourced under the GNU Affero General Public License v3.0.</h4>
+        <p>(And it's totally free--as in beer).</p>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="card-group">
+                <a class="card card-block" href="http://usbrubberducky.com">
+                    <img src="images/Duck.svg" alt="USB Rubber Ducky">
+                    <div class="caption">
+                        <h5 class="card-title">Rubber Duckies</h5>
+                        <p>Malicious keyboard devices that deliver arbitrary payloads on target.</p>
+                    </div>
+                </a>
+                <a class="card card-block" href="https://lanturtle.com/">
+                    <img src="images/Turtle.svg" alt="LAN Turtle">
+                    <div class="caption">
+                        <h5 class="card-title">LAN Turtles</h5>
+                        <p>Network adapters that can hijack connections and steal credentials.</p>
+                    </div>
+                </a>
+                <a class="card card-block" href="https://www.amazon.com/PNY-Elite-512GB-Premium-P-FD512PRO-GE/dp/B01E17LOL6/ref=sr_1_1">
+                    <img src="images/DogDuck.svg" alt="Mass Storage Device">
+                    <div class="caption">
+                        <h5 class="card-title">Mass Storage</h5>
+                        <p>Exfiltrate large volumes of data quickly and locally from a target.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="jumbotron text-center">
+        <h4>Beamgun is a teentsy little Windows program that stops rogue USB devices.</h4>
+        <p>When a network adapter, keyboard, or storage device is plugged in, Beamgun springs into action.</p>
+    </div>
+    <div class="row">
+		<ins class="adsbygoogle"
+			 style="display:block"
+			 data-ad-client="ca-pub-7354863263385271"
+			 data-ad-slot="2772743902"
+			 data-ad-format="auto"></ins>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</div>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8 text-center">
+            <div class="row">
+                <img class="col-sm-8" src="images/Screenshot.png">
+                <div class="col-sm-4">
+                    <div class="card no-border">
+                        <h5 class="card-title">Keyboard device?</h5>
+                        <p>Lock the workstation or steal keyboard focus and log the keystrokes.</p>
+                    </div>
+                    <div class="card no-border">
+                        <h5 class="card-title">Network adapter?</h5>
+                        <p>Continuously disable it. This works even if the workstation is locked.</p>
+                    </div>
+                    <div class="card no-border">
+                        <h5 class="card-title">Mass storage?</h5>
+                        <p>Reconfigure Windows to disallow these devices altogether.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="jumbotron text-center">
+        <h4>"Anybody who's been worried about their Rubber Duckies and LAN Turtles, we have good news... A neat developer has created something called Beamgun."</h4>
+        <p>-Steve Gibson, Security Now! Episode 589, November 6, 2016</p>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div id="press-carousel" class="carousel slide col-md-6" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#press-carousel" data-slide-to="0" class="active"></li>
+                <li data-target="#press-carousel" data-slide-to="1"></li>
+                <li data-target="#press-carousel" data-slide-to="2"></li>
+                <li data-target="#press-carousel" data-slide-to="3"></li>
+                <li data-target="#press-carousel" data-slide-to="4"></li>
+                <li data-target="#press-carousel" data-slide-to="5"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active text-center">
+                    <img class="carousel" src="images/security-now.png" alt="Security Now">
+                    <div class="carousel-caption">
+                        <a href="https://twit.tv/shows/security-now/episodes/589?autostart=false">
+                            <h4>Security Now! Episode 589, November 6, 2016</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="carousel-item text-center">
+                    <img class="carousel" src="images/sans-bites.png" alt="SANS NewsBites">
+                    <div class="carousel-caption">
+                        <a href="https://www.sans.org/newsletters/newsbites/xviii/95?utm_medium=Social&utm_source=Twitter&utm_content=SM_NB_xviii_95&utm_campaign=Newbites">
+                            <h4>Sans Newsbites, Volume XVIII, Issue #95</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="carousel-item text-center">
+                    <img class="carousel" src="images/northwestern-it.png" alt="Northwestern IT">
+                    <div class="carousel-caption">
+                        <a href="https://www.youtube.com/watch?v=Jb2dK8j94UI&feature=youtu.be">
+                            <h4>Information Security News, November 17, 2016</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="carousel-item text-center">
+                    <img class="carousel" src="images/sans-isc.png" alt="SANS ISC">
+                    <div class="carousel-caption">
+                        <a href="https://isc.sans.edu/podcastdetail.html?id=5275">
+                            <h4>ISC StormCast for Friday, December 2, 2016</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="carousel-item text-center">
+                    <img class="carousel" src="images/beamgun-post-1.png" alt="Lospi.net 1">
+                    <div class="carousel-caption">
+                        <a href="https://jlospinoso.github.io/infosec/usb%20rubber%20ducky/lan%20turtle/c%23/clr/wpf/.net/security/2016/11/30/beamgun-update-poison-tap.html">
+                            <h4>Defeating PoisonTaps and other Rogue Network Adapters with Beamgun</h4>
+                        </a>
+                    </div>
+                </div>
+                <div class="carousel-item text-center">
+                    <img class="carousel" src="images/beamgun-post-2.png" alt="Lospi.net 2">
+                    <div class="carousel-caption">
+                        <a href="https://jlospinoso.github.io/infosec/usb%20rubber%20ducky/c%23/clr/wpf/.net/security/2016/11/15/usb-rubber-ducky-defeat.html">
+                            <h4>Defeating the USB Rubber Ducky with Beamgun</h4>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control" href="#press-carousel" role="button" data-slide="prev">
+                <span class="icon-prev" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#press-carousel" role="button" data-slide="next">
+                <span class="icon-next" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+    <br>
+	<div class="row">
+		<ins class="adsbygoogle"
+			 style="display:block"
+			 data-ad-client="ca-pub-7354863263385271"
+			 data-ad-slot="6982617506"
+			 data-ad-format="auto"></ins>
+		<script>
+		(adsbygoogle = window.adsbygoogle || []).push({});
+		</script>
+	</div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <p class="footer col-sm-10"><a href="https://keybase.io/jlospinoso">Contact Josh</a> | <a href="https://jlospinoso.github.io/">Josh's Blog</a> | Copyright © 2016 Josh Lospinoso. All rights reserved.</p>
+        <div class="col-sm-1"></div>
     </div>
 </body>
 </html>

@@ -1,7 +1,29 @@
-h1,h2,h3,h4,h5,h6 {
-    font-family: 'Press Start 2P', cursive;
+h1,h2,h3, h4,h5,h6 {
+    font-family: 'Roboto', sans-serif;
+}
+h4{
+    font-size:1.8em;
+}
+h5{
+    font-size:1.5em;
+    font-weight:700;
 }
 body {
     font-family: 'Roboto', sans-serif;
-    font-size: 2em;
+    font-size: 1.3em;
+}
+div.text-center {
+    text-align: center;
+    vertical-align: middle;
+}
+div.no-border {
+    border-color: #ffffff;
+}
+img.carousel {
+    height:400px;
+}
+p.footer {
+    font-size:.75em;
+    font-weight:100;
+    text-align:center;
 }
