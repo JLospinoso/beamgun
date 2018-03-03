@@ -3,13 +3,11 @@
 Installing Beamgun
 ==
 
-Beamgun v0.2.3 is available
-[as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.3.msi)
-and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.3.zip).
+Beamgun v0.2.4 is available
+[as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.4.msi)
+and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.4.zip).
 We recommend you use the MSI installer so that Beamgun restarts
 on reboot.
-
-As of v0.2.2, binaries are now signed by "Open Source Developer, Joshua Alfred Lospinoso" with SHA1 Thumbprint 7a 54 58 8a b6 1e bc 30 4f 7f 78 93 38 87 e8 ad 31 10 72 c5.
 
 Building from source
 ==
@@ -30,7 +28,7 @@ Check out these two blog posts for more information:
 
 * [Update](https://jlospinoso.github.io/infosec/usb%20rubber%20ducky/lan%20turtle/c%23/clr/wpf/.net/security/2016/11/30/beamgun-update-poison-tap.html)
 
-Beamgun's homepage is [jlospinoso.github.io/beamgun/](https://jlospinoso.github.io/beamgun//).
+Beamgun's homepage is [jlospinoso.github.io/beamgun/](https://jlospinoso.github.io/beamgun).
 
 Notes
 ==
@@ -40,6 +38,8 @@ If a network adapter has already been installed on your computer, Beamgun will n
 
 Version history
 ==
+* [BeamgunInstaller-0.2.4.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.4.msi) | [BeamgunApp-0.2.4.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.4.zip): Fixing bug with portable .exe not starting under certain circumstances when registry root key doesn't exist.
+
 * [BeamgunInstaller-0.2.3.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.3.msi) | [BeamgunApp-0.2.3.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.3.zip): Removing steal focus option. Fixed bugs when disabling. Async-ified version checking.
 
 * [BeamgunInstaller-0.2.2.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.2.msi) | [BeamgunApp-0.2.2.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.2.zip): Fixes to registry access; graceful handling of cast exceptions.
@@ -52,7 +52,7 @@ Version history
 
 * [BeamgunInstaller-0.1.0.msi](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.1.0.msi) | [BeamgunApp-0.1.0.zip](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.1.0.zip): First version
 
-_456 downloads (as of 12/10/2016)_
+_456 downloads (as of 12/10/2018)_
 
 Press
 ==

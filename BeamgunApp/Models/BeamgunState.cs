@@ -170,7 +170,7 @@ namespace BeamgunApp.Models
         private string _alertLog = "";
         private string _trayIconPath;
         private string _bannerPath;
-        private string _versionInfo = $"Beamgun v{Assembly.GetExecutingAssembly().GetName().Version}. Copyright © 2016 Josh Lospinoso";
+        private string _versionInfo = $"Beamgun v{Assembly.GetExecutingAssembly().GetName().Version}. Copyright © 2016-2018 Josh Lospinoso";
         private WindowState _mainWindowState;
         private Visibility _mainWindowVisibility;
         private bool _usbMassStorageDisabled;
