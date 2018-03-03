@@ -17,7 +17,10 @@ namespace BeamgunApp.Models
     {
         public Action<string> BadCastReport;
         public const string BeamgunBaseKey = @"HKEY_CURRENT_USER\SOFTWARE\Beamgun";
-
+        public RegistryBackedDictionary()
+        {
+          Set(BeamgunBaseKey, ""); // Make sure registry key exists
+        }
         public string GetWithDefault(string key, string defaultValue)
         {
             return GetRegistryValue(key, defaultValue) ?? defaultValue;
