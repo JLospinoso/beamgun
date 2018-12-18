@@ -3,26 +3,26 @@ using System.Management;
 
 namespace BeamgunApp.Models
 {
-    public class KeyboardWatcher : IDisposable
+    public class MouseWatcher : IDisposable
     {
         private readonly ManagementEventWatcher _watcher;
 
-        public KeyboardWatcher(IBeamgunSettings settings, WorkstationLocker locker, Action<string> report, Action<string> alarm, Func<bool> disabled)
+        public MouseWatcher(IBeamgunSettings settings, WorkstationLocker locker, Action<string> report, Action<string> alarm, Func<bool> disabled)
         {
-            var keyboardQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_Keyboard\"");
-            _watcher = new ManagementEventWatcher(keyboardQuery);
+            var MouseQuery = new WqlEventQuery("__InstanceCreationEvent", new TimeSpan(0, 0, 1), "TargetInstance isa \"Win32_PointingDevice\"");
+            _watcher = new ManagementEventWatcher(MouseQuery);
             _watcher.EventArrived += (caller, args) =>
             {
                 if (disabled()) return;
                 var obj = (ManagementBaseObject)args.NewEvent["TargetInstance"];
-                alarm($"Alerting on keyboard insertion: " +
+                alarm($"Alerting on mouse insertion: " +
                                    $"{obj["Name"]} " +
                                    $"{obj["Caption"]} " +
                                    $"{obj["Description"]} " +
                                    $"{obj["DeviceID"]} " +
-                                   $"{obj["Layout"]} " +
+                                   $"{obj["Manufacturer"]} " +
                                    $"{obj["PNPDeviceID"]}.");
-                if (!settings.LockOnKeyboard) return;
+                if (!settings.LockWorkstation) return;
                 report(locker.Lock()
                     ? "Successfully locked the workstation."
                     : "Could not lock the workstation.");
