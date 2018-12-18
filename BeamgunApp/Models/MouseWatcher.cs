@@ -22,7 +22,7 @@ namespace BeamgunApp.Models
                                    $"{obj["DeviceID"]} " +
                                    $"{obj["Manufacturer"]} " +
                                    $"{obj["PNPDeviceID"]}.");
-                if (!settings.LockWorkstation) return;
+                if (!settings.LockOnMouse) return;
                 report(locker.Lock()
                     ? "Successfully locked the workstation."
                     : "Could not lock the workstation.");
