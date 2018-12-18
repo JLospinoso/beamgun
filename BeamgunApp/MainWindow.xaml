@@ -34,7 +34,7 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="{Binding Path=BeamgunState.BannerPath}"/>
+                    <Image RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=BeamgunState.BannerPath}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1" HorizontalAlignment="Center">
