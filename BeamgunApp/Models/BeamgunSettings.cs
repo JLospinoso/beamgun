@@ -18,6 +18,7 @@ namespace BeamgunApp.Models
         Guid BeamgunId { get; }
         bool CheckForUpdates { get; set; }
         uint DisableNetworkAdapterInterval { get; set; }
+        string GraphicsTheme { get; set; }
     }
 
     public class BeamgunSettings : IBeamgunSettings
@@ -144,6 +145,17 @@ namespace BeamgunApp.Models
                 _backing.Set(DisableNetworkAdapterSubkey, value);
             }
         }
+        public string GraphicsTheme
+        {
+            get
+            {
+                return _backing.GetWithDefault(GraphicsThemeKey, GraphicsThemeDefault);
+            }
+            set
+            {
+                _backing.Set(GraphicsThemeKey, value);
+            }
+        }
         public bool IsAdmin { get; }
         public Guid BeamgunId { get; }
 
@@ -180,5 +192,7 @@ namespace BeamgunApp.Models
         private const bool CheckForUpdatesDefault = true;
         private const uint DisableNetworkAdapterIntervalDefault = 100;
         private const string DisableNetworkAdapterIntervalKey = "DisableNetworkAdapterInterval";
+        private const string GraphicsThemeKey = "GraphicsTheme";
+        private const string GraphicsThemeDefault = "DuckHunt";
     }
 }
