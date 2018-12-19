@@ -127,8 +127,8 @@ namespace BeamgunApp.Models
 
         public void SetGraphicsMouseAlert()
         {
-            TrayIconPath = "Graphics/KeyboardAlertIcon.ico";
-            BannerPath = "Graphics/BeamgunAppBannerKeyboardAlert.png";
+            TrayIconPath = $"Graphics/{_settings.GraphicsTheme}/MouseAlertIcon.ico";
+            BannerPath = $"Graphics/{_settings.GraphicsTheme}/BeamgunAppBannerMouseAlert.png";
         }
 
         public void SetGraphicsLanAlert()
