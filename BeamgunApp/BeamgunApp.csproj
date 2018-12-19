@@ -108,6 +108,7 @@
     <Compile Include="Models\NetworkAdapterDisabler.cs" />
     <Compile Include="Models\NetworkWatcher.cs" />
     <Compile Include="Models\KeyboardWatcher.cs" />
+    <Compile Include="Models\MouseWatcher.cs" />
     <Compile Include="Models\KeyConverter.cs" />
     <Compile Include="Models\KeystrokeHooker.cs" />
     <Compile Include="Models\RegistryBackedDictionary.cs" />

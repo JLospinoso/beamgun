@@ -99,21 +99,24 @@
                         </i:Interaction.Triggers>
                         <TextBlock Name="ExitClickBlock">Exit</TextBlock>
                     </Border>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageDisabled}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
+                        <Label>Disable USB storage</Label>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
             <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Horizontal">
-                <StackPanel Orientation="Horizontal"/>
                 <StackPanel Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding Path=BeamgunState.LockWorkStation}" VerticalAlignment="Center"/>
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.LockOnKeyboard}" VerticalAlignment="Center"/>
                     <Label Content="Lock on keyboard"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding Path=BeamgunState.LockOnMouse}" VerticalAlignment="Center"/>
+                    <Label Content="Lock on mouse"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <CheckBox IsChecked="{Binding Path=BeamgunState.DisableNetworkAdapter}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
                     <Label>Disable new net adapters</Label>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox IsChecked="{Binding Path=BeamgunState.UsbMassStorageDisabled}" VerticalAlignment="Center" IsEnabled="{Binding Path=BeamgunState.IsAdmin}"/>
-                    <Label>Disable USB storage</Label>
                 </StackPanel>
             </StackPanel>
             <TextBox Grid.Row="3" 

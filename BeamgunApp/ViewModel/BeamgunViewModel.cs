@@ -78,6 +78,15 @@ namespace BeamgunApp.ViewModel
                     BeamgunState.SetGraphicsKeyboardAlert();
                 },
                 () => BeamgunState.Disabler.IsDisabled);
+            _mouseWatcher = new MouseWatcher(beamgunSettings, 
+                new WorkstationLocker(), 
+                x => BeamgunState.AppendToAlert(x),
+                x =>
+                {
+                    _alarm.Trigger(x);
+                    BeamgunState.SetGraphicsMouseAlert();
+                },
+                () => BeamgunState.Disabler.IsDisabled);
             var checker = new VersionChecker();
             _updateTimer = new VersionCheckerTimer(beamgunSettings,
                 checker, 
@@ -151,6 +160,7 @@ namespace BeamgunApp.ViewModel
             _updateTimer?.Dispose();
             _updateTimer?.Dispose();
             _keyboardWatcher?.Dispose();
+            _mouseWatcher?.Dispose();
             _networkWatcher?.Dispose();
             _usbStorageGuard?.Dispose();
         }
@@ -169,5 +179,6 @@ namespace BeamgunApp.ViewModel
         private readonly UsbStorageGuard _usbStorageGuard;
         private readonly VersionCheckerTimer _updateTimer;
         private readonly KeyboardWatcher _keyboardWatcher;
+        private readonly MouseWatcher _mouseWatcher;
     }
 }

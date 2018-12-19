@@ -60,13 +60,22 @@ namespace BeamgunApp.Models
                 OnPropertyChanged(nameof(MainWindowVisibility));
             }
         }
-        public bool LockWorkStation
+        public bool LockOnKeyboard
         {
-            get { return _settings.LockWorkstation; }
+            get { return _settings.LockOnKeyboard; }
             set
             {
-                _settings.LockWorkstation = value;
-                OnPropertyChanged(nameof(LockWorkStation));
+                _settings.LockOnKeyboard = value;
+                OnPropertyChanged(nameof(LockOnKeyboard));
+            }
+        }
+        public bool LockOnMouse
+        {
+            get { return _settings.LockOnMouse; }
+            set
+            {
+                _settings.LockOnMouse = value;
+                OnPropertyChanged(nameof(LockOnMouse));
             }
         }
         public bool DisableNetworkAdapter
@@ -114,6 +123,12 @@ namespace BeamgunApp.Models
         {
             TrayIconPath = $"Graphics/{_settings.GraphicsTheme}/KeyboardAlertIcon.ico";
             BannerPath = $"Graphics/{_settings.GraphicsTheme}/BeamgunAppBannerKeyboardAlert.png";
+        }
+
+        public void SetGraphicsMouseAlert()
+        {
+            TrayIconPath = "Graphics/KeyboardAlertIcon.ico";
+            BannerPath = "Graphics/BeamgunAppBannerKeyboardAlert.png";
         }
 
         public void SetGraphicsLanAlert()
