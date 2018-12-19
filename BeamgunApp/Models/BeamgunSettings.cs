@@ -8,7 +8,8 @@ namespace BeamgunApp.Models
         bool IsAdmin { get; }
         double DisableTime { get; set; }
         bool StealFocusEnabled { get; set; }
-        bool LockWorkstation { get; set; }
+        bool LockOnKeyboard { get; set; }
+        bool LockOnMouse { get; set; }
         bool DisableNetworkAdapter { get; set; }
         uint StealFocusInterval { get; set; }
         Version LatestVersion { get; set; }
@@ -18,6 +19,7 @@ namespace BeamgunApp.Models
         Guid BeamgunId { get; }
         bool CheckForUpdates { get; set; }
         uint DisableNetworkAdapterInterval { get; set; }
+        string GraphicsTheme { get; set; }
     }
 
     public class BeamgunSettings : IBeamgunSettings
@@ -122,15 +124,26 @@ namespace BeamgunApp.Models
                 _backing.Set(StealFocusEnabledSubkey, value);
             }
         }
-        public bool LockWorkstation
+        public bool LockOnKeyboard
         {
             get
             {
-                return _backing.GetWithDefault(LockWorkstationSubkey, LockWorkstationDefault);
+                return _backing.GetWithDefault(LockOnKeyboardSubkey, LockOnKeyboardDefault);
             }
             set
             {
-                _backing.Set(LockWorkstationSubkey, value);
+                _backing.Set(LockOnKeyboardSubkey, value);
+            }
+        }
+        public bool LockOnMouse
+        {
+            get
+            {
+                return _backing.GetWithDefault(LockOnMouseSubkey, LockOnMouseDefault);
+            }
+            set
+            {
+                _backing.Set(LockOnMouseSubkey, value);
             }
         }
         public bool DisableNetworkAdapter
@@ -142,6 +155,17 @@ namespace BeamgunApp.Models
             set
             {
                 _backing.Set(DisableNetworkAdapterSubkey, value);
+            }
+        }
+        public string GraphicsTheme
+        {
+            get
+            {
+                return _backing.GetWithDefault(GraphicsThemeKey, GraphicsThemeDefault);
+            }
+            set
+            {
+                _backing.Set(GraphicsThemeKey, value);
             }
         }
         public bool IsAdmin { get; }
@@ -169,8 +193,10 @@ namespace BeamgunApp.Models
         private const double DisableTimeDefault = 30;
         private const string StealFocusEnabledSubkey = "StealFocus";
         private const bool StealFocusEnabledDefault = true;
-        private const string LockWorkstationSubkey = "LockWorkStation";
-        private const bool LockWorkstationDefault = true;
+        private const string LockOnKeyboardSubkey = "LockOnKeyboard";
+        private const bool LockOnKeyboardDefault = true;
+        private const string LockOnMouseSubkey = "LockOnMouse";
+        private const bool LockOnMouseDefault = true;
         private const string DisableNetworkAdapterSubkey = "DisableNetworkAdapter";
         private const bool DisableNetworkAdapterDefault = true;
         private const string StealFocusIntervalKey = "StealFocusInterval";
@@ -180,5 +206,7 @@ namespace BeamgunApp.Models
         private const bool CheckForUpdatesDefault = true;
         private const uint DisableNetworkAdapterIntervalDefault = 100;
         private const string DisableNetworkAdapterIntervalKey = "DisableNetworkAdapterInterval";
+        private const string GraphicsThemeKey = "GraphicsTheme";
+        private const string GraphicsThemeDefault = "DuckHunt";
     }
 }

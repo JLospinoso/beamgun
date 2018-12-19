@@ -108,6 +108,7 @@
     <Compile Include="Models\NetworkAdapterDisabler.cs" />
     <Compile Include="Models\NetworkWatcher.cs" />
     <Compile Include="Models\KeyboardWatcher.cs" />
+    <Compile Include="Models\MouseWatcher.cs" />
     <Compile Include="Models\KeyConverter.cs" />
     <Compile Include="Models\KeystrokeHooker.cs" />
     <Compile Include="Models\RegistryBackedDictionary.cs" />
@@ -172,12 +173,20 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\ArmedIcon.ico" />
-    <Resource Include="Graphics\DisabledIcon.ico" />
+    <Resource Include="Graphics\DuckHunt\ArmedIcon.ico" />
+    <Resource Include="Graphics\DuckHunt\DisabledIcon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\BeamgunAppBannerArmed.png" />
-    <Resource Include="Graphics\BeamgunAppBannerDisabled.png" />
+    <Resource Include="Graphics\Modern\ArmedIcon.ico" />
+    <Resource Include="Graphics\Modern\DisabledIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\DuckHunt\BeamgunAppBannerArmed.png" />
+    <Resource Include="Graphics\DuckHunt\BeamgunAppBannerDisabled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\Modern\BeamgunAppBannerArmed.png" />
+    <Resource Include="Graphics\Modern\BeamgunAppBannerDisabled.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -192,16 +201,40 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\BeamgunAppBannerLanAlert.png" />
+    <Resource Include="Graphics\DuckHunt\BeamgunAppBannerLanAlert.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\BeamgunAppBannerKeyboardAlert.png" />
+    <Resource Include="Graphics\DuckHunt\BeamgunAppBannerKeyboardAlert.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\LanAlertIcon.ico" />
+    <Resource Include="Graphics\DuckHunt\BeamgunAppBannerMouseAlert.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Graphics\KeyboardAlertIcon.ico" />
+    <Resource Include="Graphics\DuckHunt\LanAlertIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\DuckHunt\MouseAlertIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\DuckHunt\KeyboardAlertIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\Modern\BeamgunAppBannerLanAlert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\Modern\BeamgunAppBannerKeyboardAlert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\Modern\BeamgunAppBannerMouseAlert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\Modern\LanAlertIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\Modern\MouseAlertIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Graphics\Modern\KeyboardAlertIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
