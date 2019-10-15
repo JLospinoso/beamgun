@@ -25,7 +25,7 @@ namespace BeamgunApp.Models
                 if (!settings.LockOnKeyboard) return;
                 if (WhiteList.WhiteListed(obj))
                 {
-                    report($"Device is whitelisted, remove {obj["DeviceID"]} from {WhiteList.WhiteFilename} if you've changed your mind.");
+                    report($"Device is whitelisted, remove {obj["PNPDeviceID"]} from {WhiteList.WhiteFilename} if you've changed your mind.");
                     return; 
                 }
                 report(locker.Lock()

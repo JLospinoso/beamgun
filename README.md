@@ -11,7 +11,8 @@ We recommend you use the MSI installer so that Beamgun restarts on reboot.
 Whitelisting devices
 ==
 
-create a whitelist.cfg file in the apps root directory and include a DeviceID per line.
+create a whitelist.cfg file in the apps root directory and include a DeviceID per line,
+this is the last value written out by beamgun when it reports a lock.
 example:
 USB\VID_XXXX&PID_XXXX&MI_XX\XXXXXXXXXXXXXXXXXXXXXXXX
 HID\VID_XXXX&PID_XXXXX&MI_XX&COLXX\XXXXXXXXXXXXXXXXX
