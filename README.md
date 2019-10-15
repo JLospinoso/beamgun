@@ -6,8 +6,15 @@ Installing Beamgun
 Beamgun v0.2.4 is available
 [as an MSI installer](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunInstaller-0.2.4.msi)
 and as a [portable .exe](https://s3.amazonaws.com/net.lospi.beamgun/BeamgunApp-0.2.4.zip).
-We recommend you use the MSI installer so that Beamgun restarts
-on reboot.
+We recommend you use the MSI installer so that Beamgun restarts on reboot.
+
+Whitelisting devices
+==
+
+create a whitelist.cfg file in the apps root directory and include a DeviceID per line.
+example:
+USB\VID_XXXX&PID_XXXX&MI_XX\XXXXXXXXXXXXXXXXXXXXXXXX
+
 
 Building from source
 ==

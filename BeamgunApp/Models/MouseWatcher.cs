@@ -19,7 +19,7 @@ namespace BeamgunApp.Models
                                    $"{obj["Name"]} " +
                                    $"{obj["Caption"]} " +
                                    $"{obj["Description"]} " +
-                                   $"DeviceID[{obj["DeviceID"]}]" +
+                                   $"{obj["DeviceID"]}" +
                                    $"{obj["Manufacturer"]} " +
                                    $"{obj["PNPDeviceID"]}.");
                 if (!settings.LockOnMouse) return;

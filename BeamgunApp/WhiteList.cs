@@ -10,7 +10,7 @@ namespace BeamgunApp
     {
         internal const string WhiteFilename = "./whitelist.cfg";
 
-        internal static bool WhiteListed(ManagementBaseObject mbo)
+        internal static bool WhiteListed(ManagementBaseObject obj)
         {
             var result = false;
             var whitelist = new List<string>();
@@ -28,7 +28,7 @@ namespace BeamgunApp
                 System.Console.WriteLine($"Failed to read {WhiteFilename}: {e.Message}.");
             }
 
-            if (whitelist.Contains(mbo["DeviceID"]))
+            if (whitelist.Contains(obj["DeviceID"]))
             {
                 result = true;
             }
