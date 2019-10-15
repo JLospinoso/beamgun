@@ -119,6 +119,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Models\BeamgunState.cs" />
     <Compile Include="ViewModel\BeamgunViewModel.cs" />
+    <Compile Include="WhiteList.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
