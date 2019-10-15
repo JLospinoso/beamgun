@@ -14,6 +14,7 @@ Whitelisting devices
 create a whitelist.cfg file in the apps root directory and include a DeviceID per line.
 example:
 USB\VID_XXXX&PID_XXXX&MI_XX\XXXXXXXXXXXXXXXXXXXXXXXX
+HID\VID_XXXX&PID_XXXXX&MI_XX&COLXX\XXXXXXXXXXXXXXXXX
 
 
 Building from source

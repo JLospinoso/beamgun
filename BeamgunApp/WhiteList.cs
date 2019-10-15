@@ -28,7 +28,7 @@ namespace BeamgunApp
                 System.Console.WriteLine($"Failed to read {WhiteFilename}: {e.Message}.");
             }
 
-            if (whitelist.Contains(obj["DeviceID"]))
+            if (whitelist.Contains(obj["PNPDeviceID"]))
             {
                 result = true;
             }
