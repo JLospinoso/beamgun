@@ -19,14 +19,19 @@ namespace BeamgunApp.Models
                                    $"{obj["Name"]} " +
                                    $"{obj["Caption"]} " +
                                    $"{obj["Description"]} " +
-                                   $"{obj["DeviceID"]} " +
+                                   $"{obj["DeviceID"]}" +
                                    $"{obj["Manufacturer"]} " +
                                    $"{obj["PNPDeviceID"]}.");
                 if (!settings.LockOnMouse) return;
+                if (WhiteList.WhiteListed(obj))
+                {
+                    report($"Device is whitelisted, remove {obj["PNPDeviceID"]} from {WhiteList.WhiteFilename} if you've changed your mind.");
+                    return;
+                }
                 report(locker.Lock()
                     ? "Successfully locked the workstation."
                     : "Could not lock the workstation.");
-                
+
             };
             _watcher.Start();
         }
